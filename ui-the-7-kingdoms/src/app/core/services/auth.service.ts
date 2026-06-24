@@ -55,6 +55,13 @@ export class AuthService {
     return this.checkAuth$;
   }
 
+  signUp(email: string, password: string): Observable<IAuth> {
+    return this.http.post<IAuth>(`${environment.apiUrl}${API_ROUTES.auth.signup}`, {
+      email,
+      password,
+    });
+  }
+
   signIn(email: string, password: string, rememberMe: boolean): Observable<IAuth> {
     return this.http
       .post<IAuth>(`${environment.apiUrl}${API_ROUTES.auth.login}`, {
