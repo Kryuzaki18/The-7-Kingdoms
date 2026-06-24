@@ -4,6 +4,8 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-auth',
   imports: [RouterOutlet],
-  template: '<router-outlet />',
+  templateUrl: './auth.component.html',
 })
-export class AuthComponent {}
+export class AuthComponent {
+  readonly currentYear = new Date().getFullYear();
+}

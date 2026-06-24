@@ -30,8 +30,6 @@ export class SignupComponent {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
 
-  readonly currentYear = new Date().getFullYear();
-
   readonly isLoading = signal(false);
   readonly errorMessage = signal<string | null>(null);
   readonly showPassword = signal(false);
