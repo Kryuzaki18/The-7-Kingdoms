@@ -1,7 +1,6 @@
 const API_BASE_URL = 'https://anapioficeandfire.com/api';
 
 export const ROUTES = {
-  HEALTH: "/health",
   AUTH: {
     ME: 'me',
     LOGIN: 'login',

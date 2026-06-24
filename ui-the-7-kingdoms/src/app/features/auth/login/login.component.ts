@@ -1,9 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { finalize } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Store } from '@ngrx/store';
 
-import { AuthService } from '../../../core/services/auth.service';
+import * as AuthActions from '../../../store/auth/auth.actions';
+import { selectAuthError, selectIsLoading } from '../../../store/auth/auth.selectors';
 
 @Component({
   selector: 'app-login',
@@ -12,11 +14,10 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class LoginComponent {
   private readonly fb = inject(FormBuilder);
-  private readonly router = inject(Router);
-  private readonly authService = inject(AuthService);
+  private readonly store = inject(Store);
 
-  readonly isLoading = signal(false);
-  readonly errorMessage = signal<string | null>(null);
+  readonly isLoading = toSignal(this.store.select(selectIsLoading), { initialValue: false });
+  readonly errorMessage = toSignal(this.store.select(selectAuthError), { initialValue: null });
   readonly showPassword = signal(false);
 
   readonly form: FormGroup = this.fb.group({
@@ -37,26 +38,14 @@ export class LoginComponent {
     this.showPassword.update((v) => !v);
   }
 
-  loginWithGoogle(): void {
-  }
+  loginWithGoogle(): void {}
 
   onSubmit(): void {
     if (this.form.invalid || this.isLoading()) return;
 
-    this.errorMessage.set(null);
-    this.isLoading.set(true);
+    this.store.dispatch(AuthActions.clearAuthError());
 
     const { email, password, rememberMe } = this.form.getRawValue();
-
-    this.authService
-      .signIn(email, password, rememberMe)
-      .pipe(finalize(() => this.isLoading.set(false)))
-      .subscribe({
-        next: () => this.router.navigate(['/home']),
-        error: (err) => {
-          const msg = err?.error?.message ?? 'Login failed. Please check your credentials.';
-          this.errorMessage.set(msg);
-        },
-      });
+    this.store.dispatch(AuthActions.login({ email, password, rememberMe: rememberMe ?? false }));
   }
 }

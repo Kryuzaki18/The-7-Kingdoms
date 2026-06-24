@@ -8,25 +8,22 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
-// Services
-import { AuthService } from '../services/auth.service';
+import * as AuthActions from '../../store/auth/auth.actions';
 
 export const AuthInterceptor: HttpInterceptorFn = (
   request: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> => {
-  const authService = inject(AuthService);
-  const router = inject(Router);
+  const store = inject(Store);
 
   request = request.clone({ withCredentials: true });
 
   return next(request).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401) {
-        authService.clearSession();
-        router.navigate(['/home']);
+        store.dispatch(AuthActions.sessionExpired());
       }
       return throwError(() => error);
     }),

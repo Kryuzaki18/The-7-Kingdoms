@@ -1,18 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
-import { finalize } from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Store } from '@ngrx/store';
 
-import { AuthService } from '../../../core/services/auth.service';
+import * as AuthActions from '../../../store/auth/auth.actions';
 
+import { selectAuthError, selectIsLoading } from '../../../store/auth/auth.selectors';
 const passwordMatchValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
   const password = group.get('password')?.value;
   const confirmPassword = group.get('confirmPassword')?.value;
@@ -27,22 +21,18 @@ const passwordMatchValidator: ValidatorFn = (group: AbstractControl): Validation
 })
 export class SignupComponent {
   private readonly fb = inject(FormBuilder);
-  private readonly router = inject(Router);
-  private readonly authService = inject(AuthService);
+  private readonly store = inject(Store);
 
-  readonly isLoading = signal(false);
-  readonly errorMessage = signal<string | null>(null);
+  readonly isLoading = toSignal(this.store.select(selectIsLoading), { initialValue: false });
+  readonly errorMessage = toSignal(this.store.select(selectAuthError), { initialValue: null });
   readonly showPassword = signal(false);
   readonly showConfirmPassword = signal(false);
 
-  readonly form: FormGroup = this.fb.group(
-    {
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required]],
-    },
-    { validators: passwordMatchValidator },
-  );
+  readonly form: FormGroup = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
+    confirmPassword: ['', [Validators.required]],
+  });
 
   get email() {
     return this.form.get('email')!;
@@ -67,20 +57,9 @@ export class SignupComponent {
   onSubmit(): void {
     if (this.form.invalid || this.isLoading()) return;
 
-    this.errorMessage.set(null);
-    this.isLoading.set(true);
+    this.store.dispatch(AuthActions.clearAuthError());
 
     const { email, password } = this.form.getRawValue();
-
-    this.authService
-      .signUp(email, password)
-      .pipe(finalize(() => this.isLoading.set(false)))
-      .subscribe({
-        next: () => this.router.navigate(['/login']),
-        error: (err) => {
-          const msg = err?.error?.message ?? 'Sign up failed. Please try again.';
-          this.errorMessage.set(msg);
-        },
-      });
+    this.store.dispatch(AuthActions.signup({ email, password }));
   }
 }
