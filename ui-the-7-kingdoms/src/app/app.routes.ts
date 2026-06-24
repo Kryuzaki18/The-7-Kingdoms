@@ -23,6 +23,7 @@ export const routes: Routes = [
     children: [
       { path: 'characters', component: CharactersComponent },
       { path: 'houses', component: HousesComponent },
+      { path: '', redirectTo: '/home/characters', pathMatch: 'full' },
     ],
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
