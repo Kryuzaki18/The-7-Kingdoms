@@ -1,0 +1,46 @@
+{
+  "name": "api-the-7-kingdoms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc -p tsconfig.json && node scripts/copy-assets.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "pm2:start-prod": "pm2-runtime start ecosystem.config.cjs --env production",
+    "pm2:start-local": "npm run build && pm2 start ecosystem.config.cjs --env production",
+    "pm2:stop": "pm2 stop api",
+    "pm2:restart": "pm2 restart api",
+    "pm2:reload": "pm2 reload api",
+    "pm2:delete": "pm2 delete api",
+    "pm2:logs": "pm2 logs api",
+    "pm2:status": "pm2 status",
+    "pm2:monit": "pm2 monit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@fastify/cookie": "^11.0.2",
+    "@fastify/cors": "^11.2.0",
+    "@fastify/env": "^7.0.0",
+    "@fastify/helmet": "^13.0.2",
+    "@fastify/jwt": "^10.1.0",
+    "@fastify/rate-limit": "^11.0.0",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.4.2",
+    "fastify": "^5.8.5",
+    "firebase-admin": "^14.0.0",
+    "mongoose": "^9.7.2",
+    "pm2": "^7.0.1",
+    "resend": "^6.14.0"
+  },
+  "devDependencies": {
+    "@tsconfig/node24": "^24.0.4",
+    "@types/node": "^26.0.0",
+    "typescript": "^6.0.3"
+  }
+}

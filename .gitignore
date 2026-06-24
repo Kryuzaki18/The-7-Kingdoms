@@ -1,0 +1,78 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+#------------------ Angular----------------------------
+# Compiled output
+/ui-the-7-kingdoms/dist
+/ui-the-7-kingdoms/dist/tmp
+/ui-the-7-kingdoms/out-tsc
+/ui-the-7-kingdoms/bazel-out
+
+# Node
+/ui-the-7-kingdoms/node_modules
+/ui-the-7-kingdoms/npm-debug.log
+/ui-the-7-kingdoms/yarn-error.log
+
+# IDEs and editors
+/ui-the-7-kingdoms/.idea/
+/ui-the-7-kingdoms/.project
+/ui-the-7-kingdoms/.classpath
+/ui-the-7-kingdoms/.c9/
+/ui-the-7-kingdoms/*.launch
+/ui-the-7-kingdoms/.settings/
+/ui-the-7-kingdoms/*.sublime-workspace
+
+# Visual Studio Code
+/ui-the-7-kingdoms/.vscode/*
+/ui-the-7-kingdoms/.vscode/!settings.json
+/ui-the-7-kingdoms/.vscode/!tasks.json
+/ui-the-7-kingdoms/.vscode/!launch.json
+/ui-the-7-kingdoms/.vscode/!extensions.json
+/ui-the-7-kingdoms/.vscode/!mcp.json
+/ui-the-7-kingdoms/.history/*
+.vscode/*
+
+# Miscellaneous
+/ui-the-7-kingdoms/.angular/cache
+/ui-the-7-kingdoms/.sass-cache/
+/ui-the-7-kingdoms/connect.lock
+/ui-the-7-kingdoms/coverage
+/ui-the-7-kingdoms/libpeerconnection.log
+/ui-the-7-kingdoms/testem.log
+/ui-the-7-kingdoms/typings
+/ui-the-7-kingdoms/__screenshots__/
+
+# System files
+/ui-the-7-kingdoms/.DS_Store
+/ui-the-7-kingdoms/Thumbs.db
+
+# Root system files
+.DS_Store
+Thumbs.db
+
+# Root Node and environment files
+node_modules
+dist
+.env
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# Coverage and build artifacts
+coverage
+**/dist
+**/node_modules
+**/.env
+**/logs
+
+#------------------ API ----------------------------
+/api-the-7-kingdoms/node_modules/
+/api-the-7-kingdoms/dist/
+/api-the-7-kingdoms/.env
+/api-the-7-kingdoms/.env.*
+/api-the-7-kingdoms/.npmrc
+/api-the-7-kingdoms/logs
+/api-the-7-kingdoms/.DS_Store
