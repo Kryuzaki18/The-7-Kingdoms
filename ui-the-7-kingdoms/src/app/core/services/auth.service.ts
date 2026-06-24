@@ -55,12 +55,12 @@ export class AuthService {
     return this.checkAuth$;
   }
 
-  signIn(apiKey: string, apiSecret: string, useTestnet: boolean): Observable<IAuth> {
+  signIn(email: string, password: string, rememberMe: boolean): Observable<IAuth> {
     return this.http
       .post<IAuth>(`${environment.apiUrl}${API_ROUTES.auth.login}`, {
-        apiKey,
-        apiSecret,
-        useTestnet,
+        email,
+        password,
+        rememberMe,
       })
       .pipe(
         tap(() => {
