@@ -1,8 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
-
 @use 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 body {
   margin: 0;
   padding: 0;
+}
+
+html.dark {
+  --color-gold-50: #fefce8;
+  --color-gold-100: #fef9c3;
+  --color-gold-200: #fef08a;
+  --color-gold-300: #fde047;
+  --color-gold-400: #facc15;
+  --color-gold-500: #eab308;
+  --color-gold-600: #ca8a04;
+  --color-gold-700: #a16207;
+  --color-gold-800: #854d0e;
+  --color-gold-900: #713f12;
+
+  background-color: #1a1400;
+  color: #fde68a;
 }

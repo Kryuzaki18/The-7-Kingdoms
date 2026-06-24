@@ -1,3 +1,14 @@
-<header class="flex items-center justify-center h-[50px]">
-  <p>header.component works!</p>
+<header
+  class="flex items-center justify-between h-[50px] px-4 border-b border-stone-200 dark:border-yellow-900/40 dark:bg-[#1a1400]"
+>
+  <span></span>
+
+  <button
+    type="button"
+    (click)="themeService.toggle()"
+    [attr.aria-label]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+    class="flex items-center justify-center w-8 h-8 cursor-pointer"
+  >
+    <img [src]="themeService.isDark() ? '/svgs/sun.svg' : '/svgs/moon.svg'" alt="" class="w-4 h-4 shrink-0" aria-hidden="true" />
+  </button>
 </header>
