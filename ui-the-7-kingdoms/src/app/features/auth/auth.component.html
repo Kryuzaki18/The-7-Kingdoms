@@ -1,14 +1,18 @@
-<main class="min-h-screen flex items-center justify-center px-4 py-12">
-  <div class="w-full max-w-md">
-    <div class="border border-stone-900/40 rounded-2xl px-8 py-10 sm:px-10">
-      <div class="text-center mb-2">
-        <img src="/logo.png" alt="The 7 Kingdoms" class="w-50 object-contain mx-auto" />
+<main
+  class="min-h-screen flex items-center justify-center bg-stone-50 dark:bg-[#0e0b00] px-4 py-12"
+>
+  <div class="w-full max-w-sm">
+    <div
+      class="bg-white dark:bg-[#1a1400] border border-stone-200 dark:border-yellow-900/40 rounded-2xl px-8 py-10"
+    >
+      <div class="flex items-center justify-center mb-5">
+        <img src="/logo.png" alt="The 7 Kingdoms" class="h-35 object-contain" />
       </div>
 
       <router-outlet />
     </div>
 
-    <p class="mt-6 text-center text-xs text-stone-600">
+    <p class="mt-6 text-center text-xs text-stone-400 dark:text-stone-600">
       &copy; {{ currentYear }} The 7 Kingdoms. All rights reserved.
     </p>
   </div>
