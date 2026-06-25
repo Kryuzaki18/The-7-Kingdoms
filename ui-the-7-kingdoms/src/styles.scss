@@ -7,6 +7,41 @@ body {
   padding: 0;
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d6d3d1 transparent;
+}
+
+html.dark * {
+  scrollbar-color: #854d0e transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d6d3d1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8a29e;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background-color: #854d0e;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #a16207;
+}
+
 html.dark {
   --color-gold-50: #fefce8;
   --color-gold-100: #fef9c3;
