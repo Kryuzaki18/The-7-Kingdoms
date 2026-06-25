@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { distinctUntilChanged, map } from 'rxjs';
+import { Subject, debounceTime, distinctUntilChanged, map } from 'rxjs';
 
 import { Character, CharacterFilters } from '../../core/types/characters.model';
 import { loadCharacters } from '../../store/characters/characters.actions';
@@ -36,26 +36,23 @@ export class CharactersComponent {
   hasMore = toSignal(this.store.select(selectCharactersHasMore), { initialValue: false });
 
   selectedCharacter = signal<Character | null>(null);
-  nameFilter = signal('');
+  initialNameFilter = signal('');
   genderFilter = signal('');
   currentPageSize = signal(10);
+
+  private readonly nameSearch$ = new Subject<string>();
+  private filterInitialized = false;
 
   readonly skeletons = Array.from({ length: 10 }, (_, i) => i);
 
   filteredCharacters = computed(() => {
     const list = this.characters();
-    const name = this.nameFilter().toLowerCase().trim();
     const gender = this.genderFilter();
 
-    return list.filter((c) => {
-      const displayName = c.name || c.aliases[0] || '';
-      const matchesName =
-        !name ||
-        displayName.toLowerCase().includes(name) ||
-        c.aliases.some((a) => a.toLowerCase().includes(name));
-      const matchesGender = !gender || (gender === 'Unknown' ? !c.gender : c.gender === gender);
-      return matchesName && matchesGender;
-    });
+    if (!gender) return list;
+    return list.filter((c) =>
+      gender === 'Unknown' ? !c.gender : c.gender === gender,
+    );
   });
 
   constructor() {
@@ -64,13 +61,20 @@ export class CharactersComponent {
         map((params) => ({
           page: Math.max(1, Number(params['page']) || 1),
           size: Math.min(50, Math.max(1, Number(params['size']) || 10)),
+          name: params['name'] || '',
         })),
-        distinctUntilChanged((a, b) => a.page === b.page && a.size === b.size),
+        distinctUntilChanged((a, b) => a.page === b.page && a.size === b.size && a.name === b.name),
         takeUntilDestroyed(),
       )
-      .subscribe(({ page, size }) => {
+      .subscribe(({ page, size, name }) => {
         this.currentPageSize.set(size);
-        this.store.dispatch(loadCharacters({ page, pageSize: size }));
+
+        if (!this.filterInitialized) {
+          this.filterInitialized = true;
+          this.initialNameFilter.set(name);
+        }
+
+        this.store.dispatch(loadCharacters({ page, pageSize: size, name: name || undefined }));
 
         const current = this.route.snapshot.queryParams;
         if (!current['page'] || !current['size']) {
@@ -81,11 +85,23 @@ export class CharactersComponent {
           });
         }
       });
+
+    this.nameSearch$
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed())
+      .subscribe((name) => {
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { page: 1, size: this.currentPageSize(), name: name || null },
+          queryParamsHandling: 'merge',
+          replaceUrl: true,
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
   }
 
   onFiltersChange(filters: CharacterFilters): void {
-    this.nameFilter.set(filters.name);
     this.genderFilter.set(filters.gender);
+    this.nameSearch$.next(filters.name);
   }
 
   onPageChange(newPage: number): void {

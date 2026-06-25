@@ -2,7 +2,7 @@ import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import { charactersService } from '../services/characters.service';
 
 const charactersRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
-  fastify.get<{ Querystring: { page?: string; pageSize?: string } }>(
+  fastify.get<{ Querystring: { page?: string; pageSize?: string; name?: string } }>(
     '/',
     async (request, reply) => {
       try {
@@ -11,10 +11,10 @@ const charactersRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) =>
         return reply.status(401).send({ message: 'Unauthorized' });
       }
 
-      const { page = '1', pageSize = '50' } = request.query;
+      const { page = '1', pageSize = '50', name } = request.query;
 
       try {
-        const characters = await charactersService.getAll(Number(page), Number(pageSize));
+        const characters = await charactersService.getAll(Number(page), Number(pageSize), name);
         return reply.send(characters);
       } catch {
         return reply.status(502).send({ message: 'Failed to fetch characters' });

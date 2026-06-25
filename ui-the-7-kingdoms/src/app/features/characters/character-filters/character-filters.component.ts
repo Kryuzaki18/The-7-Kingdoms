@@ -3,6 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
+  Input,
   Output,
   inject,
   signal,
@@ -28,6 +29,8 @@ export class CharacterFiltersComponent {
   onEscape(): void {
     this.isDropdownOpen.set(false);
   }
+
+  @Input() set name(v: string) { this.nameValue.set(v); }
 
   @Output() filtersChange = new EventEmitter<CharacterFilters>();
 

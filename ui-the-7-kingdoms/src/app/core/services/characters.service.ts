@@ -10,8 +10,9 @@ import { Character } from '../types/characters.model';
 export class CharactersService {
   private readonly http = inject(HttpClient);
 
-  getCharacters(page: number = 1, pageSize: number = 50): Observable<Character[]> {
-    const url = `${environment.apiUrl}${API_ROUTES.characters.list}?page=${page}&pageSize=${pageSize}`;
+  getCharacters(page: number = 1, pageSize: number = 50, name?: string): Observable<Character[]> {
+    let url = `${environment.apiUrl}${API_ROUTES.characters.list}?page=${page}&pageSize=${pageSize}`;
+    if (name) url += `&name=${encodeURIComponent(name)}`;
     return this.http.get<Character[]>(url);
   }
 

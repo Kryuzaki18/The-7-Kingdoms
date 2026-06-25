@@ -3,7 +3,7 @@ import { Character } from '../../core/types/characters.model';
 
 export const loadCharacters = createAction(
   '[Characters] Load Characters',
-  props<{ page: number; pageSize?: number }>(),
+  props<{ page: number; pageSize?: number; name?: string }>(),
 );
 
 export const loadCharactersSuccess = createAction(
