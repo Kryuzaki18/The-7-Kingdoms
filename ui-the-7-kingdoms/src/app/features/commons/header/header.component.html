@@ -1,9 +1,19 @@
 <header
-  class="sticky top-0 z-50 flex items-center justify-between h-[50px] border-b border-stone-200 dark:border-yellow-900/40 dark:bg-[#1a1400] bg-white"
+  class="sticky top-0 z-50 flex items-center justify-between h-[50px] border-b border-stone-200 dark:border-yellow-900/40"
 >
   <div class="flex items-center justify-between max-w-[1200px] w-full h-full px-3 m-auto">
     <img src="/logo-horz.png" alt="The 7 Kingdoms" class="h-10" />
         
+    <nav class="flex items-center gap-1 text-sm font-medium">
+      @for (link of navLinks; track link.path) {
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="bg-yellow-50 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 border-b-2 border-yellow-600 dark:border-yellow-400"
+          class="px-3 py-1.5 rounded-t border-b-2 border-transparent text-stone-600 dark:text-stone-300 hover:text-yellow-700 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-colors"
+        >{{ link.label }}</a>
+      }
+    </nav>
+
     <div class="flex items-center gap-5">
       <button
         type="button"
@@ -26,7 +36,7 @@
         class="flex items-center justify-center gap-2 cursor-pointer"
       >
         <span>Logout</span>
-        <img src="/svgs/logout.svg" alt="" class="w-4 h-4" aria-hidden="true" />
+        <img src="/svgs/logout.svg" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
       </button>
     </div>
   </div>

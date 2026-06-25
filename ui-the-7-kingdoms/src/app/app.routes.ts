@@ -1,12 +1,14 @@
 import { Routes } from '@angular/router';
 
+import { authGuard } from './core/guards/auth.guard';
+
 import { AuthComponent } from './features/auth/auth.component';
 import { LoginComponent } from './features/auth/login/login.component';
 import { SignupComponent } from './features/auth/signup/signup.component';
 import { HomeComponent } from './features/home/home.component';
 import { CharactersComponent } from './features/characters/characters.component';
 import { HousesComponent } from './features/houses/houses.component';
-import { authGuard } from './core/guards/auth.guard';
+import { BooksComponent } from './features/books/books.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +27,7 @@ export const routes: Routes = [
     children: [
       { path: 'characters', component: CharactersComponent },
       { path: 'houses', component: HousesComponent },
+      { path: 'books', component: BooksComponent },
       { path: '', redirectTo: '/home/characters', pathMatch: 'full' },
     ],
   },
