@@ -12,6 +12,10 @@ export const ROUTES = {
 export const EXT_ROUTES = {
   ALL_BOOKS: `${API_BASE_URL}/books`,
   BOOKS: (id: number) => `${API_BASE_URL}/books/${id}`,
-  CHARACTERS: (id: number) => `${API_BASE_URL}/characters/${id}`,
-  HOUSES: (id: number) => `${API_BASE_URL}/houses/${id}`,
+
+  ALL_CHARACTERS: (page: number, size: number) => `${API_BASE_URL}/characters?page=${page}&pageSize=${size}`,
+  CHARACTER_INFO: (id: number) => `${API_BASE_URL}/characters/${id}`,
+
+  ALL_HOUSES: (page: number, size: number) => `${API_BASE_URL}/houses?page=${page}&pageSize=${size}`,
+  HOUSE_INFO: (id: number) => `${API_BASE_URL}/houses/${id}`,
 }
