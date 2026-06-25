@@ -27,3 +27,25 @@ export const authGuard: CanActivateFn = () => {
     }),
   );
 };
+
+export const guestGuard: CanActivateFn = () => {
+  const store = inject(Store);
+  const router = inject(Router);
+
+  return store.select(selectAuthState).pipe(
+    take(1),
+    switchMap((state) => {
+      if (state.user) return of(router.createUrlTree(['/home']));
+
+      if (!state.isLoading) {
+        store.dispatch(AuthActions.checkAuth());
+      }
+
+      return store.select(selectAuthState).pipe(
+        filter((s) => !s.isLoading),
+        take(1),
+        map((s) => (s.user ? router.createUrlTree(['/home']) : true)),
+      );
+    }),
+  );
+};
