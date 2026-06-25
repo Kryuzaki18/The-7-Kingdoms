@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { AuthState } from './auth.models';
+import { AuthState } from '../../core/types/auth.models';
 import * as AuthActions from './auth.actions';
 
 export const AUTH_FEATURE_KEY = 'auth';
@@ -19,12 +19,17 @@ export const authReducer = createReducer(
     error: null,
   })),
 
-  on(AuthActions.loginSuccess, AuthActions.signupSuccess, AuthActions.checkAuthSuccess, (state, { user }) => ({
-    ...state,
-    user,
-    isLoading: false,
-    error: null,
-  })),
+  on(
+    AuthActions.loginSuccess,
+    AuthActions.signupSuccess,
+    AuthActions.checkAuthSuccess,
+    (state, { user }) => ({
+      ...state,
+      user,
+      isLoading: false,
+      error: null,
+    }),
+  ),
 
   on(AuthActions.loginFailure, AuthActions.signupFailure, (state, { error }) => ({
     ...state,

@@ -1,14 +1,33 @@
 <header
-  class="sticky top-0 z-50 flex items-center justify-between h-[50px] px-4 border-b border-stone-200 dark:border-yellow-900/40 dark:bg-[#1a1400] bg-white"
+  class="sticky top-0 z-50 flex items-center justify-between h-[50px] border-b border-stone-200 dark:border-yellow-900/40 dark:bg-[#1a1400] bg-white"
 >
-  <span></span>
+  <div class="flex items-center justify-between max-w-[1200px] w-full h-full px-3 m-auto">
+    <img src="/logo-horz.png" alt="The 7 Kingdoms" class="h-10" />
+        
+    <div class="flex items-center gap-5">
+      <button
+        type="button"
+        (click)="themeService.toggle()"
+        [attr.aria-label]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+        class="flex items-center justify-center w-8 h-8 cursor-pointer"
+      >
+        <img
+          [src]="themeService.isDark() ? '/svgs/sun.svg' : '/svgs/moon.svg'"
+          alt=""
+          class="w-4 h-4"
+          aria-hidden="true"
+        />
+      </button>
 
-  <button
-    type="button"
-    (click)="themeService.toggle()"
-    [attr.aria-label]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
-    class="flex items-center justify-center w-8 h-8 cursor-pointer"
-  >
-    <img [src]="themeService.isDark() ? '/svgs/sun.svg' : '/svgs/moon.svg'" alt="" class="w-4 h-4 shrink-0" aria-hidden="true" />
-  </button>
+      <button
+        type="button"
+        (click)="logout()"
+        aria-label="Logout"
+        class="flex items-center justify-center gap-2 cursor-pointer"
+      >
+        <span>Logout</span>
+        <img src="/svgs/logout.svg" alt="" class="w-4 h-4" aria-hidden="true" />
+      </button>
+    </div>
+  </div>
 </header>

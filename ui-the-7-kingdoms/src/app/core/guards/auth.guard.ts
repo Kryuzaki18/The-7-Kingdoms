@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { Router, CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter, map, of, switchMap, take } from 'rxjs';
 
@@ -15,7 +15,9 @@ export const authGuard: CanActivateFn = () => {
     switchMap((state) => {
       if (state.user) return of(true);
 
-      store.dispatch(AuthActions.checkAuth());
+      if (!state.isLoading) {
+        store.dispatch(AuthActions.checkAuth());
+      }
 
       return store.select(selectAuthState).pipe(
         filter((s) => !s.isLoading),

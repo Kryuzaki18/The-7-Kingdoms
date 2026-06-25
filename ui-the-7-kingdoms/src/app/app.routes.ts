@@ -6,6 +6,7 @@ import { SignupComponent } from './features/auth/signup/signup.component';
 import { HomeComponent } from './features/home/home.component';
 import { CharactersComponent } from './features/characters/characters.component';
 import { HousesComponent } from './features/houses/houses.component';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,7 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    canActivate: [authGuard],
     children: [
       { path: 'characters', component: CharactersComponent },
       { path: 'houses', component: HousesComponent },
