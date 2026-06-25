@@ -9,4 +9,8 @@ export const API_ROUTES = {
   books: {
     list: `${PREFIX}/books`,
   },
+  characters: {
+    list: `${PREFIX}/characters`,
+    info: (id: number) => `${PREFIX}/characters/${id}`,
+  },
 } as const;

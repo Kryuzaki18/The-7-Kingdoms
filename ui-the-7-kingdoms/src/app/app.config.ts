@@ -12,14 +12,20 @@ import { AUTH_FEATURE_KEY, authReducer } from './store/auth/auth.reducer';
 import * as authEffects from './store/auth/auth.effects';
 import { BOOKS_FEATURE_KEY, booksReducer } from './store/books/books.reducer';
 import * as booksEffects from './store/books/books.effects';
+import { CHARACTERS_FEATURE_KEY, charactersReducer } from './store/characters/characters.reducer';
+import * as charactersEffects from './store/characters/characters.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(withInterceptors([AuthInterceptor])),
-    provideStore({ [AUTH_FEATURE_KEY]: authReducer, [BOOKS_FEATURE_KEY]: booksReducer }),
-    provideEffects(authEffects, booksEffects),
+    provideStore({
+      [AUTH_FEATURE_KEY]: authReducer,
+      [BOOKS_FEATURE_KEY]: booksReducer,
+      [CHARACTERS_FEATURE_KEY]: charactersReducer,
+    }),
+    provideEffects(authEffects, booksEffects, charactersEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: false }),
   ],
 };
