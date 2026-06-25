@@ -4,7 +4,6 @@ import { EMAIL_REGEX } from "../constants/regex.constant";
 export const registerSchema = z.object({
   email: z.string().regex(EMAIL_REGEX, "Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
-  rememberMe: z.boolean().optional(),
 });
 
 export const loginSchema = z.object({
