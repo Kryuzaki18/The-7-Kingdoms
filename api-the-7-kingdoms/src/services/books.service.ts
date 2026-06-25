@@ -1,5 +1,5 @@
 import { EXT_ROUTES } from '../config/app-routes';
-import { Book } from '../types/books.type';
+import { Book } from '../types/books.model';
 
 export const booksService = {
   async getAllBooks(): Promise<Book[]> {
