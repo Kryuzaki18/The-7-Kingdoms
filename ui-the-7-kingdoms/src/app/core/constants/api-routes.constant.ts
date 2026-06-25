@@ -5,5 +5,8 @@ export const API_ROUTES = {
     login: `${PREFIX}/auth/login`,
     signup: `${PREFIX}/auth/signup`,
     logout: `${PREFIX}/auth/logout`,
-  }
+  },
+  books: {
+    list: `${PREFIX}/books`,
+  },
 } as const;
