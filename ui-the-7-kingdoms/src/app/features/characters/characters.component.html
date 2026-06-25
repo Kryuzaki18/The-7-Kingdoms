@@ -98,9 +98,11 @@
   <div class="mt-8">
     <app-characters-pagination
       [page]="page()"
+      [pageSize]="currentPageSize()"
       [hasMore]="hasMore()"
       [isLoading]="isLoading()"
       (pageChange)="onPageChange($event)"
+      (pageSizeChange)="onPageSizeChange($event)"
     />
   </div>
 }

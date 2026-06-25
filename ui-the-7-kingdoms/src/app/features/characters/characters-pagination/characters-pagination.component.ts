@@ -8,17 +8,25 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class CharactersPaginationComponent {
   @Input() page: number = 1;
+  @Input() pageSize: number = 10;
   @Input() hasMore: boolean = false;
   @Input() isLoading: boolean = false;
 
   @Output() pageChange = new EventEmitter<number>();
+  @Output() pageSizeChange = new EventEmitter<number>();
+
+  readonly pageSizeOptions = [10, 20, 50];
 
   prev(): void {
-    if (this.page > 1) this.pageChange.emit(this.page - 1);
+    if (!this.isPrevDisabled) this.pageChange.emit(this.page - 1);
   }
 
   next(): void {
-    if (this.hasMore) this.pageChange.emit(this.page + 1);
+    if (!this.isNextDisabled) this.pageChange.emit(this.page + 1);
+  }
+
+  selectSize(size: number): void {
+    if (size !== this.pageSize) this.pageSizeChange.emit(size);
   }
 
   get isPrevDisabled(): boolean {

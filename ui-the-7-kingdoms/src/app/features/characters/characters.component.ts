@@ -97,6 +97,15 @@ export class CharactersComponent {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  onPageSizeChange(size: number): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page: 1, size },
+      queryParamsHandling: 'merge',
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   openCharacter(character: Character): void {
     this.selectedCharacter.set(character);
   }
