@@ -7,7 +7,7 @@
     </p>
     <h1 class="text-2xl font-bold tracking-tight text-stone-900 dark:text-stone-100">Characters</h1>
   </div>
-  
+
   @if (!isLoading() && characters().length) {
     <span class="text-sm text-stone-400 dark:text-stone-500">
       {{ filteredCharacters().length }}
@@ -45,6 +45,17 @@
         <div class="h-5 w-14 bg-stone-200 dark:bg-stone-700/50 rounded-full shrink-0"></div>
       </div>
     }
+  </div>
+}
+
+@if (!isLoading() && !error() && characters().length === 0) {
+  <div class="flex flex-col items-center justify-center py-20 text-center">
+    <h3 class="text-base font-semibold text-stone-700 dark:text-stone-300 mb-1">
+      No characters on this page
+    </h3>
+    <p class="text-sm text-stone-400 dark:text-stone-500 mb-6">
+      This page has no data.
+    </p>
   </div>
 }
 
@@ -94,18 +105,18 @@
       </button>
     }
   </div>
-
-  <div class="mt-8">
-    <app-characters-pagination
-      [page]="page()"
-      [pageSize]="currentPageSize()"
-      [hasMore]="hasMore()"
-      [isLoading]="isLoading()"
-      (pageChange)="onPageChange($event)"
-      (pageSizeChange)="onPageSizeChange($event)"
-    />
-  </div>
 }
+
+<div class="mt-5">
+  <app-characters-pagination
+    [page]="page()"
+    [pageSize]="currentPageSize()"
+    [hasMore]="hasMore()"
+    [isLoading]="isLoading()"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+  />
+</div>
 
 @if (selectedCharacter()) {
   <app-character-info [character]="selectedCharacter()!" (closed)="closeCharacter()" />

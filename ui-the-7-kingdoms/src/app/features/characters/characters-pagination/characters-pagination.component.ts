@@ -16,6 +16,7 @@ export class CharactersPaginationComponent {
   @Output() pageSizeChange = new EventEmitter<number>();
 
   readonly pageSizeOptions = [10, 20, 50];
+  readonly skipAmount = 5;
 
   prev(): void {
     if (!this.isPrevDisabled) this.pageChange.emit(this.page - 1);
@@ -23,6 +24,14 @@ export class CharactersPaginationComponent {
 
   next(): void {
     if (!this.isNextDisabled) this.pageChange.emit(this.page + 1);
+  }
+
+  prevSkip(): void {
+    if (!this.isPrevDisabled) this.pageChange.emit(Math.max(1, this.page - this.skipAmount));
+  }
+
+  nextSkip(): void {
+    if (!this.isNextDisabled) this.pageChange.emit(this.page + this.skipAmount);
   }
 
   selectSize(size: number): void {
