@@ -1,6 +1,8 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { distinctUntilChanged, map } from 'rxjs';
 
 import { Character, CharacterFilters } from '../../core/types/characters.model';
 import { loadCharacters } from '../../store/characters/characters.actions';
@@ -22,8 +24,10 @@ import { CharacterInfoComponent } from '../shared-components/character-info/char
   templateUrl: './characters.component.html',
   styleUrl: './characters.component.scss',
 })
-export class CharactersComponent implements OnInit {
+export class CharactersComponent {
   private readonly store = inject(Store);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   characters = toSignal(this.store.select(selectCharacters), { initialValue: [] });
   isLoading = toSignal(this.store.select(selectCharactersIsLoading), { initialValue: false });
@@ -34,6 +38,7 @@ export class CharactersComponent implements OnInit {
   selectedCharacter = signal<Character | null>(null);
   nameFilter = signal('');
   genderFilter = signal('');
+  currentPageSize = signal(10);
 
   readonly skeletons = Array.from({ length: 10 }, (_, i) => i);
 
@@ -53,8 +58,29 @@ export class CharactersComponent implements OnInit {
     });
   });
 
-  ngOnInit(): void {
-    this.store.dispatch(loadCharacters({ page: 1 }));
+  constructor() {
+    this.route.queryParams
+      .pipe(
+        map((params) => ({
+          page: Math.max(1, Number(params['page']) || 1),
+          size: Math.min(50, Math.max(1, Number(params['size']) || 10)),
+        })),
+        distinctUntilChanged((a, b) => a.page === b.page && a.size === b.size),
+        takeUntilDestroyed(),
+      )
+      .subscribe(({ page, size }) => {
+        this.currentPageSize.set(size);
+        this.store.dispatch(loadCharacters({ page, pageSize: size }));
+
+        const current = this.route.snapshot.queryParams;
+        if (!current['page'] || !current['size']) {
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { page, size },
+            replaceUrl: true,
+          });
+        }
+      });
   }
 
   onFiltersChange(filters: CharacterFilters): void {
@@ -62,8 +88,12 @@ export class CharactersComponent implements OnInit {
     this.genderFilter.set(filters.gender);
   }
 
-  onPageChange(page: number): void {
-    this.store.dispatch(loadCharacters({ page }));
+  onPageChange(newPage: number): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page: newPage, size: this.currentPageSize() },
+      queryParamsHandling: 'merge',
+    });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
