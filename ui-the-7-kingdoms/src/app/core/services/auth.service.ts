@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment.development';
 import { API_ROUTES } from '../constants/api-routes.constant';
-import { AuthUser } from '../types/auth.models';
+import { AuthUser } from '../types/auth.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { AuthState } from '../../core/types/auth.models';
+import { AuthState } from '../../core/types/auth.model';
 import * as AuthActions from './auth.actions';
 
 export const AUTH_FEATURE_KEY = 'auth';
