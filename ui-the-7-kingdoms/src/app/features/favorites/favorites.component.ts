@@ -1,6 +1,5 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { CharactersService } from '../../core/services/characters.service';
@@ -15,10 +14,12 @@ import {
 } from '../../store/favorites/favorites.selectors';
 import { CharacterInfoComponent } from '../shared-components/character-info/character-info.component';
 import { HouseInfoComponent } from '../shared-components/house-info/house-info.component';
+import { FavCharactersComponent } from './fav-characters/fav-characters.component';
+import { FavHousesComponent } from './fav-houses/fav-houses.component';
 
 @Component({
   selector: 'app-favorites',
-  imports: [RouterLink, CharacterInfoComponent, HouseInfoComponent],
+  imports: [CharacterInfoComponent, HouseInfoComponent, FavCharactersComponent, FavHousesComponent],
   templateUrl: './favorites.component.html',
   styleUrl: './favorites.component.scss',
 })
