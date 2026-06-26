@@ -10,9 +10,6 @@ const schema = {
     JWT_SECRET: { type: "string" },
     COOKIE_SECRET: { type: "string" },
     CLIENT_ORIGIN: { type: "string" },
-    LOGO_URL: { type: "string", default: "" },
-    RESEND_API_KEY: { type: "string", default: "" },
-    EMAIL_FROM: { type: "string", default: "" },
     FIREBASE_PROJECT_ID: { type: "string", default: "" },
   },
 };
@@ -24,9 +21,6 @@ declare module "fastify" {
       JWT_SECRET: string;
       COOKIE_SECRET: string;
       CLIENT_ORIGIN: string;
-      LOGO_URL: string;
-      RESEND_API_KEY: string;
-      EMAIL_FROM: string;
       FIREBASE_PROJECT_ID: string;
     };
   }
