@@ -17,7 +17,7 @@ export interface Character {
   playedBy: string[];
 }
 
-export interface CharacterFilters {
+export interface CharactersFilters {
   name: string;
   gender: string;
 }

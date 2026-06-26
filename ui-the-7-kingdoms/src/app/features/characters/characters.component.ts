@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject, debounceTime, distinctUntilChanged, map } from 'rxjs';
 
-import { Character, CharacterFilters } from '../../core/types/characters.model';
+import { Character, CharactersFilters } from '../../core/types/characters.model';
 import { loadCharacters } from '../../store/characters/characters.actions';
 import {
   selectCharacters,
@@ -14,13 +14,13 @@ import {
   selectCharactersPage,
 } from '../../store/characters/characters.selectors';
 
-import { CharacterFiltersComponent } from './character-filters/character-filters.component';
+import { CharactersFiltersComponent } from './characters-filters/characters-filters.component';
 import { CharactersPaginationComponent } from './characters-pagination/characters-pagination.component';
 import { CharacterInfoComponent } from '../shared-components/character-info/character-info.component';
 
 @Component({
   selector: 'app-characters',
-  imports: [CharacterFiltersComponent, CharactersPaginationComponent, CharacterInfoComponent],
+  imports: [CharactersFiltersComponent, CharactersPaginationComponent, CharacterInfoComponent],
   templateUrl: './characters.component.html',
   styleUrl: './characters.component.scss',
 })
@@ -99,7 +99,7 @@ export class CharactersComponent {
       });
   }
 
-  onFiltersChange(filters: CharacterFilters): void {
+  onFiltersChange(filters: CharactersFilters): void {
     this.genderFilter.set(filters.gender);
     this.nameSearch$.next(filters.name);
   }

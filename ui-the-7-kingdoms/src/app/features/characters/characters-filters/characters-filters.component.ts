@@ -9,15 +9,15 @@ import {
   signal,
 } from '@angular/core';
 
-import { CharacterFilters } from '../../../core/types/characters.model';
+import { CharactersFilters } from '../../../core/types/characters.model';
 
 @Component({
-  selector: 'app-character-filters',
+  selector: 'app-characters-filters',
   imports: [],
-  templateUrl: './character-filters.component.html',
-  styleUrl: './character-filters.component.scss',
+  templateUrl: './characters-filters.component.html',
+  styleUrl: './characters-filters.component.scss',
 })
-export class CharacterFiltersComponent {
+export class CharactersFiltersComponent {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {
@@ -32,7 +32,7 @@ export class CharacterFiltersComponent {
 
   @Input() set name(v: string) { this.nameValue.set(v); }
 
-  @Output() filtersChange = new EventEmitter<CharacterFilters>();
+  @Output() filtersChange = new EventEmitter<CharactersFilters>();
 
   private readonly elementRef = inject(ElementRef);
 
