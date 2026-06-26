@@ -7,9 +7,10 @@ Fastify REST API powering The 7 Kingdoms app. Serves data from the [An API of Ic
 - **Runtime** — Node.js 24
 - **Framework** — Fastify 5
 - **Language** — TypeScript
-- **Auth** — `@fastify/jwt` (httpOnly cookies) + bcrypt
-- **Validation** — Zod
-- **Process manager** — PM2
+- **Auth** — `@fastify/jwt` (httpOnly cookies) + bcrypt 6
+- **Validation** — Zod 4
+- **Security** — `@fastify/helmet`, `@fastify/cors`, `@fastify/rate-limit`
+- **Process manager** — PM2 7
 
 ## Getting Started
 
@@ -26,12 +27,17 @@ Server starts on `http://localhost:3000`.
 | Script | Description |
 |---|---|
 | `npm run dev` | Start with hot-reload via `tsx watch` |
-| `npm run build` | Compile TypeScript to `dist/` |
+| `npm run build` | Compile TypeScript to `dist/` and copy assets |
 | `npm start` | Run compiled build |
 | `npm run typecheck` | Type-check without emitting |
-| `npm run pm2:start-local` | Build and start with PM2 |
+| `npm run pm2:start-prod` | Run with PM2 runtime (production) |
+| `npm run pm2:start-local` | Build then start with PM2 (local) |
 | `npm run pm2:stop` | Stop PM2 process |
+| `npm run pm2:restart` | Restart PM2 process |
+| `npm run pm2:reload` | Zero-downtime reload |
+| `npm run pm2:delete` | Remove process from PM2 |
 | `npm run pm2:logs` | Stream PM2 logs |
+| `npm run pm2:status` | Show PM2 process list |
 | `npm run pm2:monit` | PM2 monitoring dashboard |
 
 ## API Routes
@@ -90,12 +96,12 @@ NODE_ENV=development
 
 ```
 src/
-├── config/         # App routes config
+├── config/         # App and route config
 ├── constants/      # Auth constants (cookie name, expiry)
 ├── routes/         # Fastify route handlers
 ├── schemas/        # Zod validation schemas
 ├── services/       # Business logic (auth, favorites, proxy)
-├── store/          # In-memory user store
+├── store/          # In-memory user + favorites store
 ├── types/          # TypeScript interfaces
 └── server.ts       # Entry point
 ```
