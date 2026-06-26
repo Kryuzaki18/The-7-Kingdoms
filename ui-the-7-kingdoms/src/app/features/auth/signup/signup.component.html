@@ -1,12 +1,12 @@
 <div class="flex flex-col items-center items-baseline gap-1 mb-7">
-  <h1 class="text-lg font-semibold text-stone-900 dark:text-stone-100">Create an account</h1>
-  <p class="text-sm text-stone-500 dark:text-stone-400">Join the realm today</p>
+  <h1 class="text-lg font-semibold text-white">Create an account</h1>
+  <p class="text-sm text-white/60">Join the realm today</p>
 </div>
 
 @if (errorMessage()) {
   <div
     role="alert"
-    class="mb-5 rounded-lg border border-red-200 dark:border-red-800/40 bg-red-50 dark:bg-red-950/30 px-4 py-3 text-sm text-red-600 dark:text-red-400"
+    class="mb-5 rounded-lg border border-red-400/40 bg-red-500/20 px-4 py-3 text-sm text-red-200"
   >
     {{ errorMessage() }}
   </div>
@@ -16,7 +16,7 @@
   <div>
     <label
       for="email"
-      class="block text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide mb-1.5"
+      class="block text-xs font-medium text-white/60 uppercase tracking-wide mb-1.5"
     >
       Email
     </label>
@@ -26,19 +26,19 @@
       formControlName="email"
       autocomplete="email"
       placeholder="you@realm.com"
-      class="w-full rounded-lg border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-black/20 px-4 py-2.5 text-sm text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-600 outline-none focus:border-yellow-600 dark:focus:border-yellow-500 transition-colors"
+      class="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-yellow-400/80 focus:bg-white/15 transition-colors"
     />
     @if (email.touched && email.hasError('required')) {
-      <p class="mt-1.5 text-xs text-red-500 dark:text-red-400">Email is required.</p>
+      <p class="mt-1.5 text-xs text-red-300">Email is required.</p>
     } @else if (email.touched && email.hasError('email')) {
-      <p class="mt-1.5 text-xs text-red-500 dark:text-red-400">Enter a valid email address.</p>
+      <p class="mt-1.5 text-xs text-red-300">Enter a valid email address.</p>
     }
   </div>
 
   <div>
     <label
       for="password"
-      class="block text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide mb-1.5"
+      class="block text-xs font-medium text-white/60 uppercase tracking-wide mb-1.5"
     >
       Password
     </label>
@@ -49,35 +49,33 @@
         formControlName="password"
         autocomplete="new-password"
         placeholder="••••••••"
-        class="w-full rounded-lg border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-black/20 px-4 pr-11 py-2.5 text-sm text-stone-900 dark:text-stone-100 outline-none focus:border-yellow-600 dark:focus:border-yellow-500 transition-colors"
+        class="w-full rounded-lg border border-white/20 bg-white/10 px-4 pr-11 py-2.5 text-sm text-white outline-none focus:border-yellow-400/80 focus:bg-white/15 transition-colors"
       />
       <button
         type="button"
         (click)="toggleShowPassword()"
         [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
-        class="absolute inset-y-0 right-0 flex items-center px-3 text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300 transition-colors"
+        class="absolute inset-y-0 right-0 flex items-center px-3 text-white/40 hover:text-white/70 transition-colors"
       >
         <img
           [src]="showPassword() ? '/svgs/eye.svg' : '/svgs/eye-close.svg'"
           alt=""
-          class="w-4 h-4 shrink-0 dark:invert"
+          class="w-4 h-4 shrink-0 invert"
           aria-hidden="true"
         />
       </button>
     </div>
     @if (password.touched && password.hasError('required')) {
-      <p class="mt-1.5 text-xs text-red-500 dark:text-red-400">Password is required.</p>
+      <p class="mt-1.5 text-xs text-red-300">Password is required.</p>
     } @else if (password.touched && password.hasError('minlength')) {
-      <p class="mt-1.5 text-xs text-red-500 dark:text-red-400">
-        Password must be at least 8 characters.
-      </p>
+      <p class="mt-1.5 text-xs text-red-300">Password must be at least 8 characters.</p>
     }
   </div>
 
   <div>
     <label
       for="confirmPassword"
-      class="block text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide mb-1.5"
+      class="block text-xs font-medium text-white/60 uppercase tracking-wide mb-1.5"
     >
       Confirm Password
     </label>
@@ -88,38 +86,36 @@
         formControlName="confirmPassword"
         autocomplete="new-password"
         placeholder="••••••••"
-        class="w-full rounded-lg border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-black/20 px-4 pr-11 py-2.5 text-sm text-stone-900 dark:text-stone-100 outline-none focus:border-yellow-600 dark:focus:border-yellow-500 transition-colors"
+        class="w-full rounded-lg border border-white/20 bg-white/10 px-4 pr-11 py-2.5 text-sm text-white outline-none focus:border-yellow-400/80 focus:bg-white/15 transition-colors"
       />
       <button
         type="button"
         (click)="toggleShowConfirmPassword()"
         [attr.aria-label]="showConfirmPassword() ? 'Hide password' : 'Show password'"
-        class="absolute inset-y-0 right-0 flex items-center px-3 text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300 transition-colors"
+        class="absolute inset-y-0 right-0 flex items-center px-3 text-white/40 hover:text-white/70 transition-colors"
       >
         <img
           [src]="showConfirmPassword() ? '/svgs/eye.svg' : '/svgs/eye-close.svg'"
           alt=""
-          class="w-4 h-4 shrink-0 dark:invert"
+          class="w-4 h-4 shrink-0 invert"
           aria-hidden="true"
         />
       </button>
     </div>
     @if (confirmPassword.touched && confirmPassword.hasError('required')) {
-      <p class="mt-1.5 text-xs text-red-500 dark:text-red-400">Please confirm your password.</p>
+      <p class="mt-1.5 text-xs text-red-300">Please confirm your password.</p>
     } @else if (confirmPassword.touched && form.hasError('passwordMismatch')) {
-      <p class="mt-1.5 text-xs text-red-500 dark:text-red-400">Passwords do not match.</p>
+      <p class="mt-1.5 text-xs text-red-300">Passwords do not match.</p>
     }
   </div>
 
   <button
     type="submit"
     [disabled]="isLoading()"
-    class="w-full flex items-center justify-center gap-2 rounded-lg bg-yellow-600 dark:bg-yellow-500 hover:bg-yellow-700 dark:hover:bg-yellow-400 text-white dark:text-stone-950 px-4 py-2.5 text-sm font-semibold cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+    class="w-full flex items-center justify-center gap-2 rounded-lg bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2.5 text-sm font-semibold cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
   >
     @if (isLoading()) {
-      <span
-        class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"
-      ></span>
+      <span class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
       <span>Creating account…</span>
     } @else {
       Create account
@@ -128,24 +124,24 @@
 </form>
 
 <div class="flex items-center gap-3 my-6">
-  <div class="flex-1 border-t border-stone-200 dark:border-yellow-900/30"></div>
-  <span class="text-xs text-stone-400 dark:text-stone-500">or</span>
-  <div class="flex-1 border-t border-stone-200 dark:border-yellow-900/30"></div>
+  <div class="flex-1 border-t border-white/15"></div>
+  <span class="text-xs text-white/40">or</span>
+  <div class="flex-1 border-t border-white/15"></div>
 </div>
 
 <button
   type="button"
-  class="w-full flex items-center justify-center gap-3 rounded-lg border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-transparent hover:bg-stone-50 dark:hover:bg-yellow-900/10 px-4 py-2.5 text-sm font-medium text-stone-700 dark:text-stone-300 cursor-pointer transition-colors"
+  class="w-full flex items-center justify-center gap-3 rounded-lg border border-white/20 bg-white/10 hover:bg-white/15 px-4 py-2.5 text-sm font-medium text-white/80 cursor-pointer transition-colors"
 >
   <img src="/svgs/gmail.svg" alt="" class="w-4 h-4 shrink-0" aria-hidden="true" />
   Continue with Google
 </button>
 
-<p class="mt-6 text-center text-xs text-stone-500 dark:text-stone-400">
+<p class="mt-6 text-center text-xs text-white/50">
   Already have an account?
   <a
     routerLink="/login"
-    class="font-medium text-yellow-700 dark:text-yellow-400 hover:underline underline-offset-2"
+    class="font-medium text-yellow-400 hover:text-yellow-300 hover:underline underline-offset-2 transition-colors"
   >
     Sign in
   </a>

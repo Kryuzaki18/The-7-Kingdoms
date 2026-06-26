@@ -1,18 +1,21 @@
 <main
-  class="min-h-screen flex items-center justify-center bg-stone-50 dark:bg-[#0e0b00] px-4 py-12"
+  class="relative min-h-screen flex items-center justify-center px-4 py-12 bg-cover bg-center bg-no-repeat"
+  style="background-image: url('/bg.png')"
 >
-  <div class="w-full max-w-sm">
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px]"></div>
+
+  <div class="relative z-10 w-full max-w-sm">
     <div
-      class="bg-white dark:bg-[#1a1400] border border-stone-200 dark:border-yellow-900/40 rounded-2xl px-8 py-10"
+      class="bg-white/10 dark:bg-black/30 backdrop-blur-md border border-white/20 dark:border-yellow-900/30 rounded-2xl px-8 py-10 shadow-2xl shadow-black/50"
     >
       <div class="flex items-center justify-center mb-5">
-        <img src="/logo.png" alt="The 7 Kingdoms" class="h-35 object-contain" />
+        <img src="/logo.png" alt="The 7 Kingdoms" class="h-35 object-contain drop-shadow-lg" />
       </div>
 
       <router-outlet />
     </div>
 
-    <p class="mt-6 text-center text-xs text-stone-400 dark:text-stone-600">
+    <p class="mt-6 text-center text-xs text-white/40">
       &copy; {{ currentYear }} The 7 Kingdoms. All rights reserved.
     </p>
   </div>
