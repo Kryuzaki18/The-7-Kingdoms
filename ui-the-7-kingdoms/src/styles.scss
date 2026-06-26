@@ -2,16 +2,36 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --font-cinzel: 'Cinzel', 'Times New Roman', serif;
+  --font-garamond: 'EB Garamond', Georgia, serif;
+  --font-lora: 'Lora', Georgia, serif;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: 'EB Garamond', Georgia, serif;
   font-size: 16px;
+  line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2 {
   font-family: 'Cinzel', 'Times New Roman', serif;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
+}
+
+h3, h4, h5, h6 {
+  font-family: 'Lora', Georgia, serif;
+  letter-spacing: 0.01em;
+}
+
+button, input, select, textarea {
+  font-family: 'Lora', Georgia, serif;
+}
+
+nav, aside {
+  font-family: 'Lora', Georgia, serif;
 }
 
 * {
