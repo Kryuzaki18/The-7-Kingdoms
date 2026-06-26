@@ -21,17 +21,16 @@ h1, h2 {
   letter-spacing: 0.03em;
 }
 
-h3, h4, h5, h6 {
+h3, h4, h5, h6,
+button, input, select, textarea, label,
+nav, header, footer, aside,
+table, th, td, caption {
   font-family: 'Lora', Georgia, serif;
   letter-spacing: 0.01em;
 }
 
-button, input, select, textarea {
-  font-family: 'Lora', Georgia, serif;
-}
-
-nav, aside {
-  font-family: 'Lora', Georgia, serif;
+p, li, blockquote, figcaption {
+  font-family: 'EB Garamond', Georgia, serif;
 }
 
 * {
