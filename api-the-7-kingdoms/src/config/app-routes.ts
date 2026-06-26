@@ -13,7 +13,7 @@ export const EXT_ROUTES = {
   ALL_BOOKS: `${API_BASE_URL}/books`,
   BOOKS: (id: number) => `${API_BASE_URL}/books/${id}`,
 
-  ALL_CHARACTERS: (page: number, size: number, name?: string) => {
+  ALL_CHARACTERS: (page: number, size: number, name?: string, gender?: string) => {
     let url = `${API_BASE_URL}/characters?page=${page}&pageSize=${size}`;
     if (name?.trim()) {
       const formatted = name
@@ -21,6 +21,9 @@ export const EXT_ROUTES = {
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
       url += `&name=${encodeURIComponent(formatted)}`;
+    }
+    if (gender === 'Male' || gender === 'Female') {
+      url += `&gender=${gender}`;
     }
     return url;
   },

@@ -10,8 +10,8 @@ export const loadCharactersEffect = createEffect(
   (actions$ = inject(Actions), charactersService = inject(CharactersService)) =>
     actions$.pipe(
       ofType(CharactersActions.loadCharacters),
-      switchMap(({ page, pageSize = DEFAULT_PAGE_SIZE, name }) =>
-        charactersService.getCharacters(page, pageSize, name).pipe(
+      switchMap(({ page, pageSize = DEFAULT_PAGE_SIZE, name, gender }) =>
+        charactersService.getCharacters(page, pageSize, name, gender).pipe(
           map((characters) =>
             CharactersActions.loadCharactersSuccess({
               characters,

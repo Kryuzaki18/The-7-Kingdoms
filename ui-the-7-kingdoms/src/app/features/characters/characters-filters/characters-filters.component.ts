@@ -31,6 +31,7 @@ export class CharactersFiltersComponent {
   }
 
   @Input() set name(v: string) { this.nameValue.set(v); }
+  @Input() set gender(v: string) { this.genderValue.set(v); }
 
   @Output() filtersChange = new EventEmitter<CharactersFilters>();
 
@@ -44,7 +45,6 @@ export class CharactersFiltersComponent {
     { value: '', label: 'All genders' },
     { value: 'Male', label: 'Male' },
     { value: 'Female', label: 'Female' },
-    { value: 'Unknown', label: 'Unknown' },
   ];
 
   get selectedGenderLabel(): string {

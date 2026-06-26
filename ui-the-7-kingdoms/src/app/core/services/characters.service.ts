@@ -10,9 +10,10 @@ import { HttpService } from './http.service';
 export class CharactersService {
   private readonly http = inject(HttpService);
 
-  getCharacters(page: number = 1, pageSize: number = 50, name?: string): Observable<Character[]> {
+  getCharacters(page: number = 1, pageSize: number = 50, name?: string, gender?: string): Observable<Character[]> {
     const params: Record<string, string | number | boolean> = { page, pageSize };
     if (name) params['name'] = name;
+    if (gender === 'Male' || gender === 'Female') params['gender'] = gender;
     return this.http.get<Character[]>(`${environment.apiUrl}${API_ROUTES.characters.list}`, { params });
   }
 

@@ -10,17 +10,17 @@
 
   @if (!isLoading() && characters().length) {
     <span class="text-sm text-stone-400 dark:text-stone-500">
-      {{ filteredCharacters().length }}
-      @if (filteredCharacters().length !== characters().length) {
-        <span>of {{ characters().length }}</span>
-      }
-      shown
+      {{ characters().length }} shown
     </span>
   }
 </div>
 
 <div class="mb-5">
-  <app-characters-filters [name]="initialNameFilter()" (filtersChange)="onFiltersChange($event)" />
+  <app-characters-filters
+    [name]="initialNameFilter()"
+    [gender]="initialGenderFilter()"
+    (filtersChange)="onFiltersChange($event)"
+  />
 </div>
 
 @if (error()) {
@@ -59,15 +59,9 @@
   </div>
 }
 
-@if (!isLoading() && !error() && filteredCharacters().length === 0 && characters().length > 0) {
-  <div class="flex flex-col items-center justify-center py-16 text-center">
-    <p class="text-stone-400 dark:text-stone-500 text-sm">No characters match your filters.</p>
-  </div>
-}
-
-@if (!isLoading() && filteredCharacters().length > 0) {
+@if (!isLoading() && characters().length > 0) {
   <div class="space-y-2">
-    @for (character of filteredCharacters(); track character.url) {
+    @for (character of characters(); track character.url) {
       <button
         type="button"
         (click)="openCharacter(character)"

@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -39,24 +39,15 @@ export class CharactersComponent {
 
   selectedCharacter = signal<Character | null>(null);
   initialNameFilter = signal('');
-  genderFilter = signal('');
+  initialGenderFilter = signal('');
   currentPageSize = signal(10);
   showScrollTop = signal(false);
 
   private readonly nameSearch$ = new Subject<string>();
+  private readonly genderChange$ = new Subject<string>();
   private filterInitialized = false;
 
   readonly skeletons = Array.from({ length: 10 }, (_, i) => i);
-
-  filteredCharacters = computed(() => {
-    const list = this.characters();
-    const gender = this.genderFilter();
-
-    if (!gender) return list;
-    return list.filter((c) =>
-      gender === 'Unknown' ? !c.gender : c.gender === gender,
-    );
-  });
 
   constructor() {
     if (this.scrollEl) {
@@ -73,19 +64,29 @@ export class CharactersComponent {
           page: Math.max(1, Number(params['page']) || 1),
           size: Math.min(50, Math.max(1, Number(params['size']) || 10)),
           name: params['name'] || '',
+          gender: params['gender'] || '',
         })),
-        distinctUntilChanged((a, b) => a.page === b.page && a.size === b.size && a.name === b.name),
+        distinctUntilChanged(
+          (a, b) =>
+            a.page === b.page &&
+            a.size === b.size &&
+            a.name === b.name &&
+            a.gender === b.gender,
+        ),
         takeUntilDestroyed(),
       )
-      .subscribe(({ page, size, name }) => {
+      .subscribe(({ page, size, name, gender }) => {
         this.currentPageSize.set(size);
 
         if (!this.filterInitialized) {
           this.filterInitialized = true;
           this.initialNameFilter.set(name);
+          this.initialGenderFilter.set(gender);
         }
 
-        this.store.dispatch(loadCharacters({ page, pageSize: size, name: name || undefined }));
+        this.store.dispatch(
+          loadCharacters({ page, pageSize: size, name: name || undefined, gender: gender || undefined }),
+        );
 
         const current = this.route.snapshot.queryParams;
         if (!current['page'] || !current['size']) {
@@ -108,11 +109,23 @@ export class CharactersComponent {
         });
         this.scrollToTop();
       });
+
+    this.genderChange$
+      .pipe(distinctUntilChanged(), takeUntilDestroyed())
+      .subscribe((gender) => {
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { page: 1, size: this.currentPageSize(), gender: gender || null },
+          queryParamsHandling: 'merge',
+          replaceUrl: true,
+        });
+        this.scrollToTop();
+      });
   }
 
   onFiltersChange(filters: CharactersFilters): void {
-    this.genderFilter.set(filters.gender);
     this.nameSearch$.next(filters.name);
+    this.genderChange$.next(filters.gender);
   }
 
   onPageChange(newPage: number): void {
