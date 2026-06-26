@@ -1,22 +1,77 @@
 <main
-  class="relative min-h-screen flex items-center justify-center px-4 py-12 bg-cover bg-center bg-no-repeat"
+  class="relative min-h-screen flex bg-cover bg-center bg-no-repeat"
   style="background-image: url('bg.png')"
 >
-  <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px]"></div>
+  <div class="absolute inset-0 bg-black/65 backdrop-blur-[2px]"></div>
 
-  <div class="relative z-10 w-full max-w-sm">
-    <div
-      class="bg-white/10 dark:bg-black/30 backdrop-blur-md border border-white/20 dark:border-yellow-900/30 rounded-2xl px-8 py-10 shadow-2xl shadow-black/50"
-    >
-      <div class="flex items-center justify-center mb-5">
-        <img src="logo.png" alt="The 7 Kingdoms" class="h-35 object-contain drop-shadow-lg" />
+  <div class="relative z-10 flex w-full min-h-screen">
+
+    <div class="hidden lg:flex flex-col justify-between w-[55%] xl:w-3/5 px-14 xl:px-20 py-14 ">
+      <div>
+        <img src="logo-horz.png" alt="The 7 Kingdoms" class="h-30 object-contain" />
       </div>
 
-      <router-outlet />
+      <div class="max-w-lg">
+        <p class="text-[11px] font-semibold tracking-[0.3em] uppercase text-yellow-500/60 mb-5">
+          Chronicles of the Realm
+        </p>
+        <h1 class="text-4xl xl:text-5xl font-bold text-white leading-[1.2] mb-6">
+          Seven Kingdoms.<br />One Chronicle.
+        </h1>
+        <p class="text-sm xl:text-[15px] text-white/45 leading-relaxed mb-10">
+          From the frozen walls of the North to the sun-scorched sands of Dorne,
+          seven great kingdoms vie for power, glory, and survival. Explore noble
+          houses, legendary characters, and the ancient books that chronicle their
+          age — all forged into one realm.
+        </p>
+
+        <ul class="flex flex-col gap-4">
+          <li class="flex items-center gap-3.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-yellow-500/80 shrink-0"></span>
+            <span class="text-sm text-white/40">Browse noble houses and their sigils</span>
+          </li>
+          <li class="flex items-center gap-3.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-yellow-500/80 shrink-0"></span>
+            <span class="text-sm text-white/40">Discover legendary characters across the realm</span>
+          </li>
+          <li class="flex items-center gap-3.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-yellow-500/80 shrink-0"></span>
+            <span class="text-sm text-white/40">Read the ancient books that shaped their world</span>
+          </li>
+        </ul>
+      </div>
+
+      <p class="text-xs text-white/25">
+        &copy; {{ currentYear }} The 7 Kingdoms. All rights reserved.
+      </p>
     </div>
 
-    <p class="mt-6 text-center text-xs text-white/40">
-      &copy; {{ currentYear }} The 7 Kingdoms. All rights reserved.
-    </p>
+    <div class="flex flex-col items-center justify-center w-full lg:w-[45%] xl:w-2/5 px-6 py-12">
+      <div class="w-full max-w-sm">
+        <div
+          class="bg-white/10 dark:bg-black/30 backdrop-blur-md border border-white/20 dark:border-yellow-900/30 rounded-2xl px-8 py-10 shadow-2xl shadow-black/50"
+        >
+          <div class="flex items-center justify-center mb-5">
+            <img src="logo.png" alt="The 7 Kingdoms" class="h-35 object-contain" />
+          </div>
+
+          <router-outlet />
+        </div>
+
+        <div class="lg:hidden mt-5 text-center px-2">
+          <p class="text-[10px] font-bold tracking-[0.25em] uppercase text-yellow-500/50 mb-1.5">
+            Chronicles of the Seven Kingdoms
+          </p>
+          <p class="text-xs text-white/30 leading-relaxed">
+            Explore noble houses, legendary characters, and ancient lore — forged into one realm.
+          </p>
+        </div>
+
+        <p class="mt-5 text-center text-xs text-white/40 lg:hidden">
+          &copy; {{ currentYear }} The 7 Kingdoms. All rights reserved.
+        </p>
+      </div>
+    </div>
+
   </div>
 </main>
