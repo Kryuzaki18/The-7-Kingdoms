@@ -5,8 +5,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 
 import * as AuthActions from '../../../store/auth/auth.actions';
-
 import { selectAuthError, selectIsLoading } from '../../../store/auth/auth.selectors';
+
 const passwordMatchValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
   const password = group.get('password')?.value;
   const confirmPassword = group.get('confirmPassword')?.value;

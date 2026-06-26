@@ -7,7 +7,6 @@ import fastifyHelmet from "@fastify/helmet";
 
 import appRoutes from "./routes/index";
 import envPlugin from "./config/env";
-import firebaseAdmin from "./config/firebase";
 import authenticatePlugin from "./config/authenticate";
 import { COOKIE_NAME } from "./constants/auth.constant";
 
@@ -82,7 +81,6 @@ export async function buildApp(): Promise<FastifyInstance> {
   });
 
   await app.register(authenticatePlugin);
-  await app.register(firebaseAdmin);
   await app.register(appRoutes);
 
   return app;

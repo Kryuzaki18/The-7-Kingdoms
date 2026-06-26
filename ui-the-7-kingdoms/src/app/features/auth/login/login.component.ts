@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     this.showPassword.update((v) => !v);
   }
 
-  loginWithGoogle(): void {}
+  // loginWithGoogle(): void {}
 
   onSubmit(): void {
     if (this.form.invalid || this.isLoading()) return;
