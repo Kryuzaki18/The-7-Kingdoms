@@ -26,12 +26,18 @@ export const EXT_ROUTES = {
   },
   CHARACTER_INFO: (id: number) => `${API_BASE_URL}/characters/${id}`,
 
-  ALL_HOUSES: (page: number, size: number, name?: string) => {
+  ALL_HOUSES: (page: number, size: number, name?: string, region?: string) => {
     let url = `${API_BASE_URL}/houses?page=${page}&pageSize=${size}`;
     if (name?.trim()) {
       // Correct House Stark of Winterfell
       // Wrong House%20Stark%20Of%20Winterfell
       url += `&name=${encodeURIComponent(name)}`;
+    }
+
+    if(region?.trim()) {
+      // Correct Beyond the Wall or Beyond%20the%20Wall
+      // Wrong Beyond The Wall or Beyond%20The%20Wall
+      url += `&region=${encodeURIComponent(region)}`;
     }
     return url;
   },

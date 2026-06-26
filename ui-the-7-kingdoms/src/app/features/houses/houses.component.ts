@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -37,11 +37,14 @@ export class HousesComponent {
 
   selectedHouse = signal<House | null>(null);
   initialNameFilter = signal('');
+  initialRegionFilter = signal('');
   currentPageSize = signal(10);
+  regions = signal<string[]>([]);
 
   readonly skeletons = Array.from({ length: 10 }, (_, i) => i);
 
   private readonly nameSearch$ = new Subject<string>();
+  private readonly regionChange$ = new Subject<string>();
   private filterInitialized = false;
 
   constructor() {
@@ -51,19 +54,29 @@ export class HousesComponent {
           page: Math.max(1, Number(params['page']) || 1),
           size: Math.min(50, Math.max(1, Number(params['size']) || 10)),
           name: params['name'] || '',
+          region: params['region'] || '',
         })),
-        distinctUntilChanged((a, b) => a.page === b.page && a.size === b.size && a.name === b.name),
+        distinctUntilChanged(
+          (a, b) =>
+            a.page === b.page &&
+            a.size === b.size &&
+            a.name === b.name &&
+            a.region === b.region,
+        ),
         takeUntilDestroyed(),
       )
-      .subscribe(({ page, size, name }) => {
+      .subscribe(({ page, size, name, region }) => {
         this.currentPageSize.set(size);
 
         if (!this.filterInitialized) {
           this.filterInitialized = true;
           this.initialNameFilter.set(name);
+          this.initialRegionFilter.set(region);
         }
 
-        this.store.dispatch(loadHouses({ page, pageSize: size, name: name || undefined }));
+        this.store.dispatch(
+          loadHouses({ page, pageSize: size, name: name || undefined, region: region || undefined }),
+        );
 
         const current = this.route.snapshot.queryParams;
         if (!current['page'] || !current['size']) {
@@ -86,10 +99,30 @@ export class HousesComponent {
         });
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
+
+    this.regionChange$
+      .pipe(distinctUntilChanged(), takeUntilDestroyed())
+      .subscribe((region) => {
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { page: 1, size: this.currentPageSize(), region: region || null },
+          queryParamsHandling: 'merge',
+          replaceUrl: true,
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+    this.store.select(selectHouses).subscribe((houses) => {
+      if (!houses.length) return;
+      const newRegions = houses.map((h) => h.region).filter((h) => !!h);
+      this.regions.update((existing) => [...new Set([...existing, ...newRegions])]);
+      console.log(this.regions());
+    });
   }
 
   onFiltersChange(filters: HousesFilters): void {
     this.nameSearch$.next(filters.name);
+    this.regionChange$.next(filters.region);
   }
 
   onPageChange(newPage: number): void {

@@ -10,9 +10,10 @@ import { HttpService } from './http.service';
 export class HousesService {
   private readonly http = inject(HttpService);
 
-  getHouses(page: number = 1, pageSize: number = 50, name?: string): Observable<House[]> {
+  getHouses(page: number = 1, pageSize: number = 50, name?: string, region?: string): Observable<House[]> {
     const params: Record<string, string | number | boolean> = { page, pageSize };
     if (name) params['name'] = name;
+    if (region) params['region'] = region;
     return this.http.get<House[]>(`${environment.apiUrl}${API_ROUTES.houses.list}`, { params });
   }
 

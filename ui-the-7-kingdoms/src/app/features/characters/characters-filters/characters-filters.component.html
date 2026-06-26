@@ -10,7 +10,7 @@
       placeholder="Search... (e.g., Jon Snow)"
       class="w-full py-2 text-sm text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-600 outline-none bg-transparent"
     />
-    @if (hasActiveFilters) {
+    @if (nameValue()) {
       <button type="button" class="outline-none cursor-pointer" (click)="clearFilters()" aria-label="Clear filters">
         <img src="/svgs/close.svg" alt="" class="w-4 h-4 shrink-0 dark:invert" aria-hidden="true" />
       </button>

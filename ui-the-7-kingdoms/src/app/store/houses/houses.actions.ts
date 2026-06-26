@@ -3,7 +3,7 @@ import { House } from '../../core/types/houses.model';
 
 export const loadHouses = createAction(
   '[Houses] Load Houses',
-  props<{ page: number; pageSize?: number; name?: string }>(),
+  props<{ page: number; pageSize?: number; name?: string; region?: string }>(),
 );
 
 export const loadHousesSuccess = createAction(

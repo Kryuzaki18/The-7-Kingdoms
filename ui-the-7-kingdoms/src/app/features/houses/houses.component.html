@@ -16,7 +16,7 @@
 </div>
 
 <div class="mb-5">
-  <app-houses-filters [name]="initialNameFilter()" (filtersChange)="onFiltersChange($event)" />
+  <app-houses-filters [name]="initialNameFilter()" [region]="initialRegionFilter()" (filtersChange)="onFiltersChange($event)" />
 </div>
 
 @if (error()) {

@@ -19,6 +19,7 @@ export interface House {
 
 export interface HousesFilters {
   name: string;
+  region: string;
 }
 
 export interface HousesState {

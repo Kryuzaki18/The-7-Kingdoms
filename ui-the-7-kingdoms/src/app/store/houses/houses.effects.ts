@@ -10,8 +10,8 @@ export const loadHousesEffect = createEffect(
   (actions$ = inject(Actions), housesService = inject(HousesService)) =>
     actions$.pipe(
       ofType(HousesActions.loadHouses),
-      switchMap(({ page, pageSize = DEFAULT_PAGE_SIZE, name }) =>
-        housesService.getHouses(page, pageSize, name).pipe(
+      switchMap(({ page, pageSize = DEFAULT_PAGE_SIZE, name, region }) =>
+        housesService.getHouses(page, pageSize, name, region).pipe(
           map((houses) =>
             HousesActions.loadHousesSuccess({
               houses,

@@ -2,7 +2,7 @@ import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import { housesService } from '../services/houses.service';
 
 const housesRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
-  fastify.get<{ Querystring: { page?: string; pageSize?: string; name?: string } }>(
+  fastify.get<{ Querystring: { page?: string; pageSize?: string; name?: string; region?: string } }>(
     '/',
     async (request, reply) => {
       try {
@@ -11,10 +11,10 @@ const housesRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
         return reply.status(401).send({ message: 'Unauthorized' });
       }
 
-      const { page = '1', pageSize = '50', name } = request.query;
+      const { page = '1', pageSize = '50', name, region } = request.query;
 
       try {
-        const houses = await housesService.getAll(Number(page), Number(pageSize), name);
+        const houses = await housesService.getAll(Number(page), Number(pageSize), name, region);
         return reply.send(houses);
       } catch {
         return reply.status(502).send({ message: 'Failed to fetch houses' });
