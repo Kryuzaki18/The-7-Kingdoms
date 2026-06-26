@@ -25,8 +25,8 @@ export const addCharacterFavoriteEffect = createEffect(
   (actions$ = inject(Actions), service = inject(FavoritesService)) =>
     actions$.pipe(
       ofType(FavoritesActions.addCharacterFavorite),
-      mergeMap(({ url, name }) =>
-        service.addCharacter(url, name).pipe(
+      mergeMap(({ url, name, culture, gender }) =>
+        service.addCharacter(url, name, culture, gender).pipe(
           map((res) => FavoritesActions.addCharacterFavoriteSuccess(res)),
           catchError((err) =>
             of(FavoritesActions.addCharacterFavoriteFailure({ error: err?.error?.message ?? 'Failed to add favorite' })),
@@ -57,8 +57,8 @@ export const addHouseFavoriteEffect = createEffect(
   (actions$ = inject(Actions), service = inject(FavoritesService)) =>
     actions$.pipe(
       ofType(FavoritesActions.addHouseFavorite),
-      mergeMap(({ url, name }) =>
-        service.addHouse(url, name).pipe(
+      mergeMap(({ url, name, region }) =>
+        service.addHouse(url, name, region).pipe(
           map((res) => FavoritesActions.addHouseFavoriteSuccess(res)),
           catchError((err) =>
             of(FavoritesActions.addHouseFavoriteFailure({ error: err?.error?.message ?? 'Failed to add favorite' })),

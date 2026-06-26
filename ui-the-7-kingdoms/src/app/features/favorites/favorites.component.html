@@ -70,7 +70,14 @@
       <div class="flex flex-col items-center justify-center py-20 text-center">
         <img src="/svgs/star.svg" alt="" class="w-10 h-10 opacity-15 dark:invert mb-4" aria-hidden="true" />
         <h3 class="text-base font-semibold text-stone-700 dark:text-stone-300 mb-1">No character favorites yet</h3>
-        <p class="text-sm text-stone-400 dark:text-stone-500">Star a character to save them here.</p>
+        <p class="text-sm text-stone-400 dark:text-stone-500 mb-4">Star a character to save them here.</p>
+        <a
+          [routerLink]="'/home/characters'"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 hover:bg-yellow-100 dark:hover:bg-yellow-900/40 border border-yellow-200 dark:border-yellow-800/40 transition-colors"
+        >
+          <img src="/svgs/character.svg" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
+          Browse Characters
+        </a>
       </div>
     } @else {
       <div class="space-y-2">
@@ -79,9 +86,26 @@
             class="flex items-center gap-4 rounded-xl border border-stone-200 dark:border-yellow-950/60 bg-white dark:bg-black/20 px-5 py-3.5 transition-all duration-150"
           >
             <img src="/svgs/character.svg" alt="" class="w-4 h-4 shrink-0 dark:invert opacity-40" aria-hidden="true" />
-            <p class="flex-1 text-sm font-medium truncate text-stone-900 dark:text-stone-100">
-              {{ item.name || 'Unknown' }}
-            </p>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium truncate text-stone-900 dark:text-stone-100">
+                {{ item.name || 'Unknown' }}
+              </p>
+              @if (item.culture) {
+                <p class="text-xs text-stone-400 dark:text-stone-500 truncate mt-0.5">{{ item.culture }}</p>
+              }
+            </div>
+            <span
+              class="shrink-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+              [class]="
+                item.gender === 'Male'
+                  ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
+                  : item.gender === 'Female'
+                    ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300'
+                    : 'bg-stone-100 text-stone-500 dark:bg-stone-700/40 dark:text-stone-400'
+              "
+            >
+              {{ item.gender || 'Unknown' }}
+            </span>
             <button
               type="button"
               (click)="removeCharacter(item.url)"
@@ -99,7 +123,14 @@
       <div class="flex flex-col items-center justify-center py-20 text-center">
         <img src="/svgs/star.svg" alt="" class="w-10 h-10 opacity-15 dark:invert mb-4" aria-hidden="true" />
         <h3 class="text-base font-semibold text-stone-700 dark:text-stone-300 mb-1">No house favorites yet</h3>
-        <p class="text-sm text-stone-400 dark:text-stone-500">Star a house to save them here.</p>
+        <p class="text-sm text-stone-400 dark:text-stone-500 mb-4">Star a house to save them here.</p>
+        <a
+          [routerLink]="'/home/houses'"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 hover:bg-yellow-100 dark:hover:bg-yellow-900/40 border border-yellow-200 dark:border-yellow-800/40 transition-colors"
+        >
+          <img src="/svgs/castle.svg" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
+          Browse Houses
+        </a>
       </div>
     } @else {
       <div class="space-y-2">
@@ -108,9 +139,14 @@
             class="flex items-center gap-4 rounded-xl border border-stone-200 dark:border-yellow-950/60 bg-white dark:bg-black/20 px-5 py-3.5 transition-all duration-150"
           >
             <img src="/svgs/castle.svg" alt="" class="w-4 h-4 shrink-0 dark:invert opacity-40" aria-hidden="true" />
-            <p class="flex-1 text-sm font-medium truncate text-stone-900 dark:text-stone-100">
-              {{ item.name || 'Unknown House' }}
-            </p>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium truncate text-stone-900 dark:text-stone-100">
+                {{ item.name || 'Unknown House' }}
+              </p>
+              @if (item.region) {
+                <p class="text-xs text-stone-400 dark:text-stone-500 truncate mt-0.5">{{ item.region }}</p>
+              }
+            </div>
             <button
               type="button"
               (click)="removeHouse(item.url)"

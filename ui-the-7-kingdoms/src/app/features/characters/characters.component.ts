@@ -178,7 +178,7 @@ export class CharactersComponent {
     if (this.isFavorited(character.url)) {
       this.store.dispatch(removeCharacterFavorite({ url: character.url }));
     } else {
-      this.store.dispatch(addCharacterFavorite({ url: character.url, name: this.getDisplayName(character) }));
+      this.store.dispatch(addCharacterFavorite({ url: character.url, name: this.getDisplayName(character), culture: character.culture || undefined, gender: character.gender || undefined }));
     }
   }
 }

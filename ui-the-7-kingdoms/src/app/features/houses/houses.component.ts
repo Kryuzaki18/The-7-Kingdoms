@@ -172,7 +172,7 @@ export class HousesComponent {
     if (this.isFavorited(house.url)) {
       this.store.dispatch(removeHouseFavorite({ url: house.url }));
     } else {
-      this.store.dispatch(addHouseFavorite({ url: house.url, name: house.name || 'Unknown House' }));
+      this.store.dispatch(addHouseFavorite({ url: house.url, name: house.name || 'Unknown House', region: house.region || undefined }));
     }
   }
 }

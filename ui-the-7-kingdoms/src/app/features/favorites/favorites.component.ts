@@ -1,5 +1,6 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { loadFavorites, removeCharacterFavorite, removeHouseFavorite } from '../../store/favorites/favorites.actions';
@@ -11,7 +12,7 @@ import {
 
 @Component({
   selector: 'app-favorites',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './favorites.component.html',
   styleUrl: './favorites.component.scss',
 })

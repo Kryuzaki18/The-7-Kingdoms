@@ -14,10 +14,10 @@ export class FavoritesService {
     return this.http.get<FavoritesResponse>(`${environment.apiUrl}${API_ROUTES.favorites.list}`);
   }
 
-  addCharacter(url: string, name: string): Observable<FavoritesResponse> {
+  addCharacter(url: string, name: string, culture?: string, gender?: string): Observable<FavoritesResponse> {
     return this.http.post<FavoritesResponse>(
       `${environment.apiUrl}${API_ROUTES.favorites.addCharacter}`,
-      { url, name },
+      { url, name, culture, gender },
     );
   }
 
@@ -28,10 +28,10 @@ export class FavoritesService {
     );
   }
 
-  addHouse(url: string, name: string): Observable<FavoritesResponse> {
+  addHouse(url: string, name: string, region?: string): Observable<FavoritesResponse> {
     return this.http.post<FavoritesResponse>(
       `${environment.apiUrl}${API_ROUTES.favorites.addHouse}`,
-      { url, name },
+      { url, name, region },
     );
   }
 
