@@ -1,9 +1,12 @@
 import { Component, EventEmitter, HostListener, Output, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+
 import { Store } from '@ngrx/store';
+import * as AuthActions from '../../../store/auth/auth.actions';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
 
 import { ThemeService } from '../../../core/services/theme.service';
-import * as AuthActions from '../../../store/auth/auth.actions';
 
 @Component({
   selector: 'app-sidebar',
@@ -27,6 +30,8 @@ export class SidebarComponent {
 
   protected readonly themeService = inject(ThemeService);
   private readonly store = inject(Store);
+  
+  user = toSignal(this.store.select(selectAuthUser));
 
   close(): void {
     this.closed.emit();

@@ -77,9 +77,16 @@
 
         @if (isUserMenuOpen()) {
           <div
-            class="absolute right-0 top-full mt-2 w-44 rounded-xl border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-[#1a1400] shadow-lg shadow-stone-200/60 dark:shadow-black/40 overflow-hidden z-50"
+            class="absolute right-0 top-full mt-2 w-52 rounded-xl border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-[#1a1400] shadow-lg shadow-stone-200/60 dark:shadow-black/40 overflow-hidden z-50"
             (click)="$event.stopPropagation()"
           >
+            <div class="px-4 py-3">
+              <p class="text-xs text-stone-400 dark:text-stone-500 mb-0.5">Signed in as</p>
+              <p class="text-sm font-medium text-stone-700 dark:text-stone-200 truncate">{{ user()?.email }}</p>
+            </div>
+
+            <div class="border-t border-stone-100 dark:border-yellow-900/20"></div>
+
             <a
               [routerLink]="'/home/favorites'"
               (click)="isUserMenuOpen.set(false)"
