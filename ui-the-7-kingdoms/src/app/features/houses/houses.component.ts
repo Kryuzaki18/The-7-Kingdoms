@@ -1,8 +1,9 @@
+import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject, debounceTime, distinctUntilChanged, map } from 'rxjs';
+import { Subject, debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
 
 import { House, HousesFilters } from '../../core/types/houses.model';
 import { loadHouses } from '../../store/houses/houses.actions';
@@ -28,6 +29,7 @@ export class HousesComponent {
   private readonly store = inject(Store);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly scrollEl = inject(DOCUMENT).getElementById('main-scroll');
 
   houses = toSignal(this.store.select(selectHouses), { initialValue: [] });
   isLoading = toSignal(this.store.select(selectHousesIsLoading), { initialValue: false });
@@ -39,7 +41,7 @@ export class HousesComponent {
   initialNameFilter = signal('');
   initialRegionFilter = signal('');
   currentPageSize = signal(10);
-  regions = signal<string[]>([]);
+  showScrollTop = signal(false);
 
   readonly skeletons = Array.from({ length: 10 }, (_, i) => i);
 
@@ -48,6 +50,14 @@ export class HousesComponent {
   private filterInitialized = false;
 
   constructor() {
+    if (this.scrollEl) {
+      fromEvent(this.scrollEl, 'scroll')
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => {
+          this.showScrollTop.set(this.scrollEl!.scrollTop > 300);
+        });
+    }
+
     this.route.queryParams
       .pipe(
         map((params) => ({
@@ -97,7 +107,7 @@ export class HousesComponent {
           queryParamsHandling: 'merge',
           replaceUrl: true,
         });
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        this.scrollToTop();
       });
 
     this.regionChange$
@@ -109,15 +119,8 @@ export class HousesComponent {
           queryParamsHandling: 'merge',
           replaceUrl: true,
         });
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        this.scrollToTop();
       });
-
-    this.store.select(selectHouses).subscribe((houses) => {
-      if (!houses.length) return;
-      const newRegions = houses.map((h) => h.region).filter((h) => !!h);
-      this.regions.update((existing) => [...new Set([...existing, ...newRegions])]);
-      console.log(this.regions());
-    });
   }
 
   onFiltersChange(filters: HousesFilters): void {
@@ -131,7 +134,7 @@ export class HousesComponent {
       queryParams: { page: newPage, size: this.currentPageSize() },
       queryParamsHandling: 'merge',
     });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.scrollToTop();
   }
 
   onPageSizeChange(size: number): void {
@@ -140,7 +143,11 @@ export class HousesComponent {
       queryParams: { page: 1, size },
       queryParamsHandling: 'merge',
     });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.scrollToTop();
+  }
+
+  scrollToTop(): void {
+    this.scrollEl?.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   openHouse(house: House): void {

@@ -1,8 +1,9 @@
+import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject, debounceTime, distinctUntilChanged, map } from 'rxjs';
+import { Subject, debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
 
 import { Character, CharactersFilters } from '../../core/types/characters.model';
 import { loadCharacters } from '../../store/characters/characters.actions';
@@ -28,6 +29,7 @@ export class CharactersComponent {
   private readonly store = inject(Store);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly scrollEl = inject(DOCUMENT).getElementById('main-scroll');
 
   characters = toSignal(this.store.select(selectCharacters), { initialValue: [] });
   isLoading = toSignal(this.store.select(selectCharactersIsLoading), { initialValue: false });
@@ -39,6 +41,7 @@ export class CharactersComponent {
   initialNameFilter = signal('');
   genderFilter = signal('');
   currentPageSize = signal(10);
+  showScrollTop = signal(false);
 
   private readonly nameSearch$ = new Subject<string>();
   private filterInitialized = false;
@@ -56,6 +59,14 @@ export class CharactersComponent {
   });
 
   constructor() {
+    if (this.scrollEl) {
+      fromEvent(this.scrollEl, 'scroll')
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => {
+          this.showScrollTop.set(this.scrollEl!.scrollTop > 300);
+        });
+    }
+
     this.route.queryParams
       .pipe(
         map((params) => ({
@@ -95,7 +106,7 @@ export class CharactersComponent {
           queryParamsHandling: 'merge',
           replaceUrl: true,
         });
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        this.scrollToTop();
       });
   }
 
@@ -110,7 +121,7 @@ export class CharactersComponent {
       queryParams: { page: newPage, size: this.currentPageSize() },
       queryParamsHandling: 'merge',
     });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.scrollToTop();
   }
 
   onPageSizeChange(size: number): void {
@@ -119,7 +130,7 @@ export class CharactersComponent {
       queryParams: { page: 1, size },
       queryParamsHandling: 'merge',
     });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.scrollToTop();
   }
 
   openCharacter(character: Character): void {
@@ -128,6 +139,10 @@ export class CharactersComponent {
 
   closeCharacter(): void {
     this.selectedCharacter.set(null);
+  }
+
+  scrollToTop(): void {
+    this.scrollEl?.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   getDisplayName(character: Character): string {
