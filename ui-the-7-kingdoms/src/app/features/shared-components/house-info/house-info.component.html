@@ -1,0 +1,137 @@
+<div
+  class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm"
+  (click)="onBackdropClick()"
+>
+  <div
+    class="relative w-full sm:max-w-lg max-h-[92dvh] sm:max-h-[85vh] flex flex-col rounded-t-2xl sm:rounded-2xl bg-white dark:bg-[#1a1400] border border-stone-200 dark:border-yellow-900/40 shadow-2xl overflow-hidden"
+    (click)="$event.stopPropagation()"
+  >
+    <div
+      class="flex items-start justify-between gap-4 px-6 pt-6 pb-4 border-b border-stone-100 dark:border-yellow-900/20 shrink-0"
+    >
+      <div class="min-w-0">
+        <h2 class="text-lg font-bold text-stone-900 dark:text-stone-100 leading-tight truncate">
+          {{ house.name || 'Unknown House' }}
+        </h2>
+        @if (house.words) {
+          <p class="mt-1 text-sm italic text-stone-500 dark:text-stone-400">"{{ house.words }}"</p>
+        }
+        @if (house.region) {
+          <p class="mt-1 text-xs text-stone-400 dark:text-stone-500">{{ house.region }}</p>
+        }
+      </div>
+      <button
+        type="button"
+        (click)="closed.emit()"
+        aria-label="Close"
+        class="cursor-pointer shrink-0 flex items-center justify-center w-8 h-8 rounded-full text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-yellow-900/20 transition-colors"
+      >
+        <img src="/svgs/close.svg" alt="" class="dark:invert" aria-hidden="true" />
+      </button>
+    </div>
+
+    <div class="flex-1 overflow-y-auto px-6 py-4 space-y-5">
+      @if (house.founded || house.diedOut) {
+        <div class="grid grid-cols-2 gap-3">
+          @if (house.founded) {
+            <div
+              class="rounded-lg bg-stone-50 dark:bg-black/20 border border-stone-100 dark:border-yellow-900/20 px-3 py-2.5"
+            >
+              <p
+                class="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-0.5"
+              >
+                Founded
+              </p>
+              <p class="text-sm text-stone-700 dark:text-stone-300">{{ house.founded }}</p>
+            </div>
+          }
+          @if (house.diedOut) {
+            <div
+              class="rounded-lg bg-stone-50 dark:bg-black/20 border border-stone-100 dark:border-yellow-900/20 px-3 py-2.5"
+            >
+              <p
+                class="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-0.5"
+              >
+                Died Out
+              </p>
+              <p class="text-sm text-stone-700 dark:text-stone-300">{{ house.diedOut }}</p>
+            </div>
+          }
+        </div>
+      }
+
+      @if (activeTitles.length) {
+        <div>
+          <p
+            class="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2"
+          >
+            Titles
+          </p>
+          <ul class="space-y-1">
+            @for (title of activeTitles; track title) {
+              <li class="flex items-start gap-2 text-sm text-stone-700 dark:text-stone-300">
+                <span
+                  class="mt-1.5 w-1 h-1 rounded-full bg-yellow-500 dark:bg-yellow-400 shrink-0"
+                ></span>
+                {{ title }}
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      @if (activeSeats.length) {
+        <div>
+          <p
+            class="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2"
+          >
+            Seats
+          </p>
+          <div class="flex flex-wrap gap-1.5">
+            @for (seat of activeSeats; track seat) {
+              <span
+                class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs bg-stone-100 dark:bg-yellow-900/20 text-stone-600 dark:text-yellow-300/80 border border-stone-200 dark:border-yellow-900/30"
+              >
+                {{ seat }}
+              </span>
+            }
+          </div>
+        </div>
+      }
+
+      @if (activeAncestralWeapons.length) {
+        <div>
+          <p
+            class="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2"
+          >
+            Ancestral Weapons
+          </p>
+          <div class="flex flex-wrap gap-1.5">
+            @for (weapon of activeAncestralWeapons; track weapon) {
+              <span
+                class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800/40"
+              >
+                {{ weapon }}
+              </span>
+            }
+          </div>
+        </div>
+      }
+
+      @if (house.swornMembers.length) {
+        <div class="flex items-center gap-2 pt-1">
+          <img
+            src="/svgs/book.svg"
+            alt=""
+            class="w-4 h-4 shrink-0 dark:invert"
+            aria-hidden="true"
+          />
+          <span class="text-sm text-stone-500 dark:text-stone-400">
+            {{ house.swornMembers.length }}
+            {{ house.swornMembers.length === 1 ? 'sworn member' : 'sworn members' }}
+          </span>
+        </div>
+      }
+    </div>
+  </div>
+</div>

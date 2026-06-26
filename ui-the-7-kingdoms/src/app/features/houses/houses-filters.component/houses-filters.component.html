@@ -1,0 +1,19 @@
+<div class="flex items-center gap-2">
+  <div
+    class="flex items-center gap-3 px-3 flex-1 min-w-[180px] rounded-lg border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-black/20 transition-colors"
+  >
+    <img src="/svgs/search.svg" alt="" class="w-4 h-4 shrink-0 dark:invert" aria-hidden="true" />
+    <input
+      type="text"
+      [value]="nameValue()"
+      (input)="onNameInput($event)"
+      placeholder="Search... (e.g., House Stark of Winterfell)"
+      class="w-full py-2 text-sm text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-600 outline-none bg-transparent"
+    />
+    @if (hasActiveFilters) {
+      <button type="button" class="outline-none cursor-pointer" (click)="clearFilters()" aria-label="Clear filters">
+        <img src="/svgs/close.svg" alt="" class="w-4 h-4 shrink-0 dark:invert" aria-hidden="true" />
+      </button>
+    }
+  </div>
+</div>

@@ -14,6 +14,8 @@ import { BOOKS_FEATURE_KEY, booksReducer } from './store/books/books.reducer';
 import * as booksEffects from './store/books/books.effects';
 import { CHARACTERS_FEATURE_KEY, charactersReducer } from './store/characters/characters.reducer';
 import * as charactersEffects from './store/characters/characters.effects';
+import { HOUSES_FEATURE_KEY, housesReducer } from './store/houses/houses.reducer';
+import * as housesEffects from './store/houses/houses.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,8 +26,9 @@ export const appConfig: ApplicationConfig = {
       [AUTH_FEATURE_KEY]: authReducer,
       [BOOKS_FEATURE_KEY]: booksReducer,
       [CHARACTERS_FEATURE_KEY]: charactersReducer,
+      [HOUSES_FEATURE_KEY]: housesReducer,
     }),
-    provideEffects(authEffects, booksEffects, charactersEffects),
+    provideEffects(authEffects, booksEffects, charactersEffects, housesEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: false }),
   ],
 };

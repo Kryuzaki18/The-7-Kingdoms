@@ -13,4 +13,8 @@ export const API_ROUTES = {
     list: `${PREFIX}/characters`,
     info: (id: number) => `${PREFIX}/characters/${id}`,
   },
+  houses: {
+    list: `${PREFIX}/houses`,
+    info: (id: number) => `${PREFIX}/houses/${id}`,
+  },
 } as const;

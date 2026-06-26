@@ -1,1 +1,104 @@
-<p>houses.component works!</p>
+<div class="flex items-end justify-between mb-6">
+  <div>
+    <p
+      class="text-xs font-medium uppercase tracking-widest text-yellow-600 dark:text-yellow-500 mb-1"
+    >
+      Great Houses
+    </p>
+    <h1 class="text-2xl font-bold tracking-tight text-stone-900 dark:text-stone-100">Houses</h1>
+  </div>
+
+  @if (!isLoading() && houses().length) {
+    <span class="text-sm text-stone-400 dark:text-stone-500">
+      {{ houses().length }} shown
+    </span>
+  }
+</div>
+
+<div class="mb-5">
+  <app-houses-filters [name]="initialNameFilter()" (filtersChange)="onFiltersChange($event)" />
+</div>
+
+@if (error()) {
+  <div
+    role="alert"
+    class="mb-6 rounded-lg border border-red-200 dark:border-red-800/40 bg-red-50 dark:bg-red-950/30 px-4 py-3 text-sm text-red-600 dark:text-red-400"
+  >
+    {{ error() }}
+  </div>
+}
+
+@if (isLoading()) {
+  <div class="space-y-2">
+    @for (i of skeletons; track i) {
+      <div
+        class="flex items-center gap-4 rounded-xl border border-stone-200 dark:border-yellow-900/30 bg-white dark:bg-black/20 px-5 py-3.5 animate-pulse"
+      >
+        <div class="flex-1 space-y-1.5">
+          <div class="h-3.5 bg-stone-200 dark:bg-stone-700/50 rounded w-2/5"></div>
+          <div class="h-3 bg-stone-200 dark:bg-stone-700/50 rounded w-1/4"></div>
+        </div>
+        <div class="h-5 w-20 bg-stone-200 dark:bg-stone-700/50 rounded-full shrink-0"></div>
+      </div>
+    }
+  </div>
+}
+
+@if (!isLoading() && !error() && houses().length === 0) {
+  <div class="flex flex-col items-center justify-center py-20 text-center">
+    <h3 class="text-base font-semibold text-stone-700 dark:text-stone-300 mb-1">
+      No houses on this page
+    </h3>
+    <p class="text-sm text-stone-400 dark:text-stone-500 mb-6">
+      This page has no data.
+    </p>
+  </div>
+}
+
+@if (!isLoading() && houses().length > 0) {
+  <div class="space-y-2">
+    @for (house of houses(); track house.url) {
+      <button
+        type="button"
+        (click)="openHouse(house)"
+        class="group w-full flex items-center gap-4 rounded-xl border border-stone-200 dark:border-yellow-950/60 bg-white dark:bg-black/20 px-5 py-3.5 text-left hover:border-yellow-500/50 dark:hover:border-yellow-600/50 hover:bg-yellow-50/50 dark:hover:bg-yellow-900/10 transition-all duration-150 cursor-pointer"
+      >
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-medium truncate text-stone-900 dark:text-stone-100">
+            {{ house.name || 'Unknown House' }}
+          </p>
+          @if (house.region) {
+            <p class="text-xs text-stone-400 dark:text-stone-500 truncate mt-0.5">
+              {{ house.region }}
+            </p>
+          }
+        </div>
+
+        @if (house.words) {
+          <span
+            class="shrink-0 hidden sm:inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800/40 max-w-[180px] truncate"
+          >
+            {{ house.words }}
+          </span>
+        }
+
+        <img src="/svgs/chevron-right.svg" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
+      </button>
+    }
+  </div>
+}
+
+<div class="mt-5">
+  <app-houses-pagination
+    [page]="page()"
+    [pageSize]="currentPageSize()"
+    [hasMore]="hasMore()"
+    [isLoading]="isLoading()"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+  />
+</div>
+
+@if (selectedHouse()) {
+  <app-house-info [house]="selectedHouse()!" (closed)="closeHouse()" />
+}
