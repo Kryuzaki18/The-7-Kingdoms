@@ -62,9 +62,11 @@
 @if (!isLoading() && characters().length > 0) {
   <div class="space-y-2">
     @for (character of characters(); track character.url) {
-      <button
-        type="button"
+      <div
+        role="button"
+        tabindex="0"
         (click)="openCharacter(character)"
+        (keydown.enter)="openCharacter(character)"
         class="group w-full flex items-center gap-4 rounded-xl border border-stone-200 dark:border-yellow-950/60 bg-white dark:bg-black/20 px-5 py-3.5 text-left hover:border-yellow-500/50 dark:hover:border-yellow-600/50 hover:bg-yellow-50/50 dark:hover:bg-yellow-900/10 transition-all duration-150 cursor-pointer"
       >
         <div class="flex-1 min-w-0">
@@ -95,8 +97,27 @@
         >
           {{ character.gender || 'Unknown' }}
         </span>
+
+        <button
+          type="button"
+          (click)="toggleFavorite($event, character)"
+          [attr.aria-label]="isFavorited(character.url) ? 'Remove from favorites' : 'Add to favorites'"
+          class="shrink-0 flex items-center justify-center w-7 h-7 rounded-full transition-all duration-150 cursor-pointer"
+          [class]="isFavorited(character.url)
+            ? 'bg-yellow-50 dark:bg-yellow-900/30 hover:bg-yellow-100 dark:hover:bg-yellow-900/50'
+            : 'hover:bg-stone-100 dark:hover:bg-stone-800/30'"
+        >
+          <img
+            [src]="isFavorited(character.url) ? '/svgs/starred.svg' : '/svgs/star.svg'"
+            alt=""
+            class="w-3.5 h-3.5 dark:invert transition-opacity"
+            [class.opacity-25]="!isFavorited(character.url)"
+            aria-hidden="true"
+          />
+        </button>
+
         <img src="/svgs/chevron-right.svg" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
-      </button>
+      </div>
     }
   </div>
 }

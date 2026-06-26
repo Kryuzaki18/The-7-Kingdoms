@@ -1,1 +1,127 @@
-<p>favorites.component works!</p>
+<div class="flex items-end justify-between mb-6">
+  <div>
+    <p class="text-xs font-medium uppercase tracking-widest text-yellow-600 dark:text-yellow-500 mb-1">
+      Collection
+    </p>
+    <h1 class="text-2xl font-bold tracking-tight text-stone-900 dark:text-stone-100">Favorites</h1>
+  </div>
+  @if (totalCount() > 0) {
+    <span class="text-sm text-stone-400 dark:text-stone-500">{{ totalCount() }} saved</span>
+  }
+</div>
+
+<div class="flex border-b border-stone-200 dark:border-yellow-900/30 mb-5">
+  <button
+    type="button"
+    (click)="activeTab.set('characters')"
+    class="relative flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors cursor-pointer"
+    [class]="activeTab() === 'characters'
+      ? 'text-yellow-700 dark:text-yellow-400 border-b-2 border-yellow-600 dark:border-yellow-400 -mb-px'
+      : 'text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-300'"
+  >
+    <img src="/svgs/character.svg" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
+    Characters
+    @if (characters().length > 0) {
+      <span
+        class="inline-flex items-center justify-center w-5 h-5 text-[10px] font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-400"
+      >
+        {{ characters().length }}
+      </span>
+    }
+  </button>
+
+  <button
+    type="button"
+    (click)="activeTab.set('houses')"
+    class="relative flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors cursor-pointer"
+    [class]="activeTab() === 'houses'
+      ? 'text-yellow-700 dark:text-yellow-400 border-b-2 border-yellow-600 dark:border-yellow-400 -mb-px'
+      : 'text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-300'"
+  >
+    <img src="/svgs/castle.svg" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
+    Houses
+    @if (houses().length > 0) {
+      <span
+        class="inline-flex items-center justify-center w-5 h-5 text-[10px] font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-400"
+      >
+        {{ houses().length }}
+      </span>
+    }
+  </button>
+</div>
+
+@if (isLoading()) {
+  <div class="space-y-2">
+    @for (i of [1, 2, 3, 4]; track i) {
+      <div
+        class="flex items-center gap-4 rounded-xl border border-stone-200 dark:border-yellow-900/30 bg-white dark:bg-black/20 px-5 py-3.5 animate-pulse"
+      >
+        <div class="w-4 h-4 bg-stone-200 dark:bg-stone-700/50 rounded-full shrink-0"></div>
+        <div class="flex-1 h-3.5 bg-stone-200 dark:bg-stone-700/50 rounded w-2/5"></div>
+        <div class="w-7 h-7 bg-stone-200 dark:bg-stone-700/50 rounded-full shrink-0"></div>
+      </div>
+    }
+  </div>
+}
+
+@if (!isLoading()) {
+  @if (activeTab() === 'characters') {
+    @if (characters().length === 0) {
+      <div class="flex flex-col items-center justify-center py-20 text-center">
+        <img src="/svgs/star.svg" alt="" class="w-10 h-10 opacity-15 dark:invert mb-4" aria-hidden="true" />
+        <h3 class="text-base font-semibold text-stone-700 dark:text-stone-300 mb-1">No character favorites yet</h3>
+        <p class="text-sm text-stone-400 dark:text-stone-500">Star a character to save them here.</p>
+      </div>
+    } @else {
+      <div class="space-y-2">
+        @for (item of characters(); track item.url) {
+          <div
+            class="flex items-center gap-4 rounded-xl border border-stone-200 dark:border-yellow-950/60 bg-white dark:bg-black/20 px-5 py-3.5 transition-all duration-150"
+          >
+            <img src="/svgs/character.svg" alt="" class="w-4 h-4 shrink-0 dark:invert opacity-40" aria-hidden="true" />
+            <p class="flex-1 text-sm font-medium truncate text-stone-900 dark:text-stone-100">
+              {{ item.name || 'Unknown' }}
+            </p>
+            <button
+              type="button"
+              (click)="removeCharacter(item.url)"
+              aria-label="Remove from favorites"
+              class="shrink-0 flex items-center justify-center w-7 h-7 rounded-full bg-yellow-50 dark:bg-yellow-900/30 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-150 cursor-pointer"
+            >
+              <img src="/svgs/starred.svg" alt="" class="w-3.5 h-3.5 dark:invert" aria-hidden="true" />
+            </button>
+          </div>
+        }
+      </div>
+    }
+  } @else if (activeTab() === 'houses') {
+    @if (houses().length === 0) {
+      <div class="flex flex-col items-center justify-center py-20 text-center">
+        <img src="/svgs/star.svg" alt="" class="w-10 h-10 opacity-15 dark:invert mb-4" aria-hidden="true" />
+        <h3 class="text-base font-semibold text-stone-700 dark:text-stone-300 mb-1">No house favorites yet</h3>
+        <p class="text-sm text-stone-400 dark:text-stone-500">Star a house to save them here.</p>
+      </div>
+    } @else {
+      <div class="space-y-2">
+        @for (item of houses(); track item.url) {
+          <div
+            class="flex items-center gap-4 rounded-xl border border-stone-200 dark:border-yellow-950/60 bg-white dark:bg-black/20 px-5 py-3.5 transition-all duration-150"
+          >
+            <img src="/svgs/castle.svg" alt="" class="w-4 h-4 shrink-0 dark:invert opacity-40" aria-hidden="true" />
+            <p class="flex-1 text-sm font-medium truncate text-stone-900 dark:text-stone-100">
+              {{ item.name || 'Unknown House' }}
+            </p>
+            <button
+              type="button"
+              (click)="removeHouse(item.url)"
+              aria-label="Remove from favorites"
+              class="shrink-0 flex items-center justify-center w-7 h-7 rounded-full bg-yellow-50 dark:bg-yellow-900/30 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-150 cursor-pointer"
+            >
+              <img src="/svgs/starred.svg" alt="" class="w-3.5 h-3.5 dark:invert" aria-hidden="true" />
+            </button>
+          </div>
+        }
+      </div>
+    }
+  }
+}

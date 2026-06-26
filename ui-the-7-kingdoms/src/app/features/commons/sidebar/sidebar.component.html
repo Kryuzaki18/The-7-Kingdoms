@@ -41,19 +41,16 @@
     <div class="my-3 border-t border-stone-200 dark:border-yellow-900/30"></div>
 
     <div class="space-y-1">
-      <button
-        type="button"
-        disabled
-        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm text-sm font-medium border-l-2 border-transparent text-stone-400 dark:text-stone-500 cursor-not-allowed"
+      <a
+        [routerLink]="'/home/favorites'"
+        routerLinkActive="bg-yellow-50 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 border-l-2 border-yellow-600 dark:border-yellow-400"
+        [routerLinkActiveOptions]="{ exact: false }"
+        (click)="close()"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-sm font-medium border-l-2 border-transparent text-stone-600 dark:text-stone-300 hover:text-yellow-700 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-colors"
       >
-        <img
-          src="/svgs/star.svg"
-          alt=""
-          class="w-5 h-5 opacity-40 dark:invert"
-          aria-hidden="true"
-        />
+        <img src="/svgs/star.svg" alt="" class="w-5 h-5 dark:invert" aria-hidden="true" />
         Favorites
-      </button>
+      </a>
     </div>
   </nav>
 

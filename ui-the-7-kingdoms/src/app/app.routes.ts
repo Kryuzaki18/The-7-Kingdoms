@@ -9,6 +9,7 @@ import { HomeComponent } from './features/home/home.component';
 import { CharactersComponent } from './features/characters/characters.component';
 import { HousesComponent } from './features/houses/houses.component';
 import { BooksComponent } from './features/books/books.component';
+import { FavoritesComponent } from './features/favorites/favorites.component';
 
 export const routes: Routes = [
   {
@@ -29,6 +30,7 @@ export const routes: Routes = [
       { path: 'characters', component: CharactersComponent },
       { path: 'houses', component: HousesComponent },
       { path: 'books', component: BooksComponent },
+      { path: 'favorites', component: FavoritesComponent },
       { path: '', redirectTo: '/home/characters', pathMatch: 'full' },
     ],
   },

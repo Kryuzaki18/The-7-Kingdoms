@@ -10,11 +10,12 @@
         aria-label="Open menu"
         class="flex items-center justify-center w-9 h-9 rounded-lg text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-yellow-900/20 transition-colors cursor-pointer"
       >
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <rect x="0" y="3" width="20" height="2" rx="1"/>
-          <rect x="0" y="9" width="20" height="2" rx="1"/>
-          <rect x="0" y="15" width="20" height="2" rx="1"/>
-        </svg>
+        <img
+          src="/svgs/hamburger.svg"
+          alt=""
+          class="w-5 h-5 dark:invert"
+          aria-hidden="true"
+        />
       </button>
 
       <img src="/logo-horz.png" alt="The 7 Kingdoms" class="h-10 absolute left-1/2 -translate-x-1/2" />
@@ -79,14 +80,14 @@
             class="absolute right-0 top-full mt-2 w-44 rounded-xl border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-[#1a1400] shadow-lg shadow-stone-200/60 dark:shadow-black/40 overflow-hidden z-50"
             (click)="$event.stopPropagation()"
           >
-            <button
-              type="button"
-              disabled
-              class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-stone-400 dark:text-stone-500 cursor-not-allowed"
+            <a
+              [routerLink]="'/home/favorites'"
+              (click)="isUserMenuOpen.set(false)"
+              class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-stone-600 dark:text-stone-300 hover:text-yellow-700 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-colors cursor-pointer"
             >
-              <img src="/svgs/star.svg" alt="" class="w-4 h-4 opacity-40 dark:invert" aria-hidden="true" />
+              <img src="/svgs/star.svg" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
               Favorites
-            </button>
+            </a>
 
             <div class="border-t border-stone-100 dark:border-yellow-900/20"></div>
 

@@ -14,6 +14,8 @@ import {
   selectCharactersIsLoading,
   selectCharactersPage,
 } from '../../store/characters/characters.selectors';
+import { addCharacterFavorite, loadFavorites, removeCharacterFavorite } from '../../store/favorites/favorites.actions';
+import { selectFavoriteCharacterUrls } from '../../store/favorites/favorites.selectors';
 
 import { CharactersFiltersComponent } from './characters-filters/characters-filters.component';
 import { CharactersPaginationComponent } from './characters-pagination/characters-pagination.component';
@@ -36,6 +38,7 @@ export class CharactersComponent {
   error = toSignal(this.store.select(selectCharactersError), { initialValue: null });
   page = toSignal(this.store.select(selectCharactersPage), { initialValue: 1 });
   hasMore = toSignal(this.store.select(selectCharactersHasMore), { initialValue: false });
+  favoriteUrls = toSignal(this.store.select(selectFavoriteCharacterUrls), { initialValue: new Set<string>() });
 
   selectedCharacter = signal<Character | null>(null);
   initialNameFilter = signal('');
@@ -50,6 +53,8 @@ export class CharactersComponent {
   readonly skeletons = Array.from({ length: 10 }, (_, i) => i);
 
   constructor() {
+    this.store.dispatch(loadFavorites());
+
     if (this.scrollEl) {
       fromEvent(this.scrollEl, 'scroll')
         .pipe(takeUntilDestroyed())
@@ -162,5 +167,18 @@ export class CharactersComponent {
     if (character.name) return character.name;
     const alias = character.aliases.find((a) => a);
     return alias ?? 'Unknown';
+  }
+
+  isFavorited(url: string): boolean {
+    return this.favoriteUrls().has(url);
+  }
+
+  toggleFavorite(event: Event, character: Character): void {
+    event.stopPropagation();
+    if (this.isFavorited(character.url)) {
+      this.store.dispatch(removeCharacterFavorite({ url: character.url }));
+    } else {
+      this.store.dispatch(addCharacterFavorite({ url: character.url, name: this.getDisplayName(character) }));
+    }
   }
 }

@@ -7,6 +7,13 @@ export const ROUTES = {
     SIGNUP: "signup",
     LOGOUT: "logout",
   },
+  FAVORITES: {
+    CHARACTERS: "/characters",
+    CHARACTER_ID: "/characters/:id",
+    
+    HOUSES: "/houses",
+    HOUSE_ID: "/houses/:id"
+  }
 };
 
 export const EXT_ROUTES = {

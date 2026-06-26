@@ -17,4 +17,11 @@ export const API_ROUTES = {
     list: `${PREFIX}/houses`,
     info: (id: number) => `${PREFIX}/houses/${id}`,
   },
+  favorites: {
+    list: `${PREFIX}/favorites`,
+    addCharacter: `${PREFIX}/favorites/characters`,
+    removeCharacter: (id: number) => `${PREFIX}/favorites/characters/${id}`,
+    addHouse: `${PREFIX}/favorites/houses`,
+    removeHouse: (id: number) => `${PREFIX}/favorites/houses/${id}`,
+  },
 } as const;

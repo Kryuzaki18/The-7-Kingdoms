@@ -14,6 +14,8 @@ import {
   selectHousesIsLoading,
   selectHousesPage,
 } from '../../store/houses/houses.selectors';
+import { addHouseFavorite, loadFavorites, removeHouseFavorite } from '../../store/favorites/favorites.actions';
+import { selectFavoriteHouseUrls } from '../../store/favorites/favorites.selectors';
 
 import { HousesFiltersComponent } from './houses-filters.component/houses-filters.component';
 import { HousesPagination } from './houses-pagination/houses-pagination';
@@ -36,6 +38,7 @@ export class HousesComponent {
   error = toSignal(this.store.select(selectHousesError), { initialValue: null });
   page = toSignal(this.store.select(selectHousesPage), { initialValue: 1 });
   hasMore = toSignal(this.store.select(selectHousesHasMore), { initialValue: false });
+  favoriteUrls = toSignal(this.store.select(selectFavoriteHouseUrls), { initialValue: new Set<string>() });
 
   selectedHouse = signal<House | null>(null);
   initialNameFilter = signal('');
@@ -50,6 +53,8 @@ export class HousesComponent {
   private filterInitialized = false;
 
   constructor() {
+    this.store.dispatch(loadFavorites());
+
     if (this.scrollEl) {
       fromEvent(this.scrollEl, 'scroll')
         .pipe(takeUntilDestroyed())
@@ -156,5 +161,18 @@ export class HousesComponent {
 
   closeHouse(): void {
     this.selectedHouse.set(null);
+  }
+
+  isFavorited(url: string): boolean {
+    return this.favoriteUrls().has(url);
+  }
+
+  toggleFavorite(event: Event, house: House): void {
+    event.stopPropagation();
+    if (this.isFavorited(house.url)) {
+      this.store.dispatch(removeHouseFavorite({ url: house.url }));
+    } else {
+      this.store.dispatch(addHouseFavorite({ url: house.url, name: house.name || 'Unknown House' }));
+    }
   }
 }
