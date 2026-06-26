@@ -13,11 +13,11 @@
         <h2 class="text-lg font-bold text-stone-900 dark:text-stone-100 leading-tight truncate">
           {{ house.name || 'Unknown House' }}
         </h2>
+        @if (house.region) {
+          <p class="mt-1 text-sm font-bold text-stone-600 dark:text-stone-300">{{ house.region }}</p>
+        }
         @if (house.words) {
           <p class="mt-1 text-sm italic text-stone-500 dark:text-stone-400">"{{ house.words }}"</p>
-        }
-        @if (house.region) {
-          <p class="mt-1 text-xs text-stone-400 dark:text-stone-500">{{ house.region }}</p>
         }
       </div>
       <button
