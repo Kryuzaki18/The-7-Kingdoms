@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -12,7 +12,7 @@ import { selectAuthError, selectIsLoading } from '../../../store/auth/auth.selec
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly store = inject(Store);
 
@@ -32,6 +32,10 @@ export class LoginComponent {
 
   get password() {
     return this.form.get('password')!;
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(AuthActions.clearAuthError());
   }
 
   toggleShowPassword(): void {

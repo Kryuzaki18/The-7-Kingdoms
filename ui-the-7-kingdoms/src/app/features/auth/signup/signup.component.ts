@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -19,7 +19,7 @@ const passwordMatchValidator: ValidatorFn = (group: AbstractControl): Validation
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly store = inject(Store);
 
@@ -44,6 +44,10 @@ export class SignupComponent {
 
   get confirmPassword() {
     return this.form.get('confirmPassword')!;
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(AuthActions.clearAuthError());
   }
 
   toggleShowPassword(): void {
