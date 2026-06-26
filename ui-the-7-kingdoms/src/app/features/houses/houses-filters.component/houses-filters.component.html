@@ -2,7 +2,7 @@
   <div
     class="flex items-center gap-3 px-3 flex-1 min-w-[180px] rounded-lg border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-black/20 transition-colors"
   >
-    <img src="/svgs/search.svg" alt="" class="w-4 h-4 shrink-0 dark:invert" aria-hidden="true" />
+    <img src="svgs/search.svg" alt="" class="w-4 h-4 shrink-0 dark:invert" aria-hidden="true" />
     <input
       type="text"
       [value]="nameValue()"
@@ -12,7 +12,7 @@
     />
     @if (nameValue()) {
       <button type="button" class="outline-none cursor-pointer" (click)="clearFilters()" aria-label="Clear filters">
-        <img src="/svgs/close.svg" alt="" class="w-4 h-4 shrink-0 dark:invert" aria-hidden="true" />
+        <img src="svgs/close.svg" alt="" class="w-4 h-4 shrink-0 dark:invert" aria-hidden="true" />
       </button>
     }
   </div>
@@ -28,7 +28,7 @@
     >
       <span class="font-medium truncate">{{ selectedRegionLabel }}</span>
       <img
-        src="/svgs/chevron-left.svg"
+        src="svgs/chevron-left.svg"
         alt=""
         class="w-4 h-4 -rotate-90 shrink-0 dark:invert duration-200 transition-transform"
         aria-hidden="true"
@@ -51,7 +51,7 @@
           >
             <span>{{ opt.label }}</span>
             @if (regionValue() === opt.value) {
-              <img src="/svgs/check.svg" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
+              <img src="svgs/check.svg" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
             }
           </button>
         }

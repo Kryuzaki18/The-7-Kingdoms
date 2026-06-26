@@ -108,7 +108,7 @@
             : 'hover:bg-stone-100 dark:hover:bg-stone-800/30'"
         >
           <img
-            [src]="isFavorited(character.url) ? '/svgs/starred.svg' : '/svgs/star.svg'"
+            [src]="isFavorited(character.url) ? 'svgs/starred.svg' : 'svgs/star.svg'"
             alt=""
             class="w-3.5 h-3.5 dark:invert transition-opacity"
             [class.opacity-25]="!isFavorited(character.url)"
@@ -116,7 +116,7 @@
           />
         </button>
 
-        <img src="/svgs/chevron-right.svg" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
+        <img src="svgs/chevron-right.svg" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
       </div>
     }
   </div>
@@ -144,6 +144,6 @@
     aria-label="Scroll to top"
     class="fixed md:bottom-6 md:left-1/2 -translate-x-1/2 right-5 bottom-15 z-40 flex items-center justify-center w-10 h-10 rounded-full border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-[#1a1400] text-stone-400 dark:text-stone-500 shadow-md shadow-stone-200/60 dark:shadow-black/40 hover:border-yellow-500/60 dark:hover:border-yellow-600/60 hover:text-yellow-700 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-all duration-150 cursor-pointer"
   >
-    <img src="/svgs/chevron-left.svg" alt="" class="w-5 h-5 rotate-90 dark:invert" aria-hidden="true" />
+    <img src="svgs/chevron-left.svg" alt="" class="w-5 h-5 rotate-90 dark:invert" aria-hidden="true" />
   </button>
 }

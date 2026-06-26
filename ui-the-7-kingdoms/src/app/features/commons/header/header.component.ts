@@ -36,9 +36,9 @@ export class HeaderComponent {
   user = toSignal(this.store.select(selectAuthUser));
 
   protected readonly navLinks = [
-    { label: 'Books', path: '/home/books', icon: '/svgs/book.svg' },
-    { label: 'Characters', path: '/home/characters', icon: '/svgs/character.svg' },
-    { label: 'Houses', path: '/home/houses', icon: '/svgs/castle.svg' },
+    { label: 'Books', path: '/home/books', icon: 'svgs/book.svg' },
+    { label: 'Characters', path: '/home/characters', icon: 'svgs/character.svg' },
+    { label: 'Houses', path: '/home/houses', icon: 'svgs/castle.svg' },
   ];
 
   toggleUserMenu(event: Event): void {
