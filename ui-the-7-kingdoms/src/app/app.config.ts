@@ -1,13 +1,15 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { TitleStrategy } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { provideStore } from '@ngrx/store';
-import { provideEffects } from '@ngrx/effects';
-import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { routes } from './app.routes';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { AppTitleStrategy } from './core/strategies/app-title.strategy';
 
+import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { AUTH_FEATURE_KEY, authReducer } from './store/auth/auth.reducer';
 import * as authEffects from './store/auth/auth.effects';
 import { BOOKS_FEATURE_KEY, booksReducer } from './store/books/books.reducer';
@@ -33,5 +35,6 @@ export const appConfig: ApplicationConfig = {
     }),
     provideEffects(authEffects, booksEffects, charactersEffects, housesEffects, favoritesEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: false }),
+    { provide: TitleStrategy, useClass: AppTitleStrategy },
   ],
 };
