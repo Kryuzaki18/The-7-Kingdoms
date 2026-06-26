@@ -1,28 +1,28 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 
-import { LocalStorageService } from './localStorage.service';
-import { STORAGE } from '../constants/storage.constant';
+import { ThemeService } from './theme.service';
 
 @Injectable({ providedIn: 'root' })
 export class SoundService {
-  private readonly localStorageService = inject(LocalStorageService);
+  private readonly themeService = inject(ThemeService);
 
-  readonly isMuted = this.localStorageService.getLocalStorageSignal<boolean>(STORAGE.sound, true);
+  isMuted = signal(true);
 
   private audio: HTMLAudioElement | null = null;
   private currentSrc: string | null = null;
 
   toggle(): void {
     const muting = !this.isMuted();
-    this.localStorageService.updateLocalStorageSignal(STORAGE.sound, muting);
+    this.isMuted.set(muting);
     if (muting) {
       this.pause();
     } else {
-      this.resume();
+      this.play();
     }
   }
 
-  play(isDark: boolean): void {
+  play(): void {
+    const isDark = this.themeService.isDark();
     const src = isDark ? 'sounds/night.mp3' : 'sounds/rain.mp3';
     if (this.currentSrc === src && this.audio && !this.audio.paused) return;
 
@@ -37,11 +37,9 @@ export class SoundService {
     }
   }
 
-  switchTheme(isDark: boolean): void {
+  switchTheme(): void {
     if (!this.isMuted()) {
-      this.play(isDark);
-    } else {
-      this.currentSrc = isDark ? 'sounds/night.mp3' : 'sounds/rain.mp3';
+      this.play();
     }
   }
 
@@ -52,12 +50,6 @@ export class SoundService {
 
   private pause(): void {
     this.audio?.pause();
-  }
-
-  private resume(): void {
-    if (this.audio && this.currentSrc) {
-      this.audio.play().catch(() => {});
-    }
   }
 
   private destroyAudio(): void {

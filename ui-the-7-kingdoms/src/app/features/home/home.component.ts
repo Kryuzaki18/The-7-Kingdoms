@@ -40,16 +40,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor() {
     effect(() => {
-      const isDark = this.themeService.isDark();
+      this.themeService.isDark();
       if (this.isActive) {
-        this.soundService.switchTheme(isDark);
+        this.soundService.switchTheme();
       }
     });
   }
 
   ngOnInit(): void {
     this.isActive = true;
-    this.soundService.play(this.themeService.isDark());
+    this.soundService.play();
   }
 
   ngOnDestroy(): void {
