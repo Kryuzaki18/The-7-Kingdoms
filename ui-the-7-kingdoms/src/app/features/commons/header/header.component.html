@@ -1,20 +1,55 @@
 <header
-  class="sticky top-0 z-50 flex items-center justify-between h-[50px] border-b border-stone-200 dark:border-yellow-900/40"
+  class="sticky top-0 z-40 border-b border-stone-200 dark:border-yellow-900/40"
 >
-  <div class="flex items-center justify-between max-w-[1200px] w-full h-full px-3 m-auto">
-    <img src="/logo-horz.png" alt="The 7 Kingdoms" class="h-10" />
-        
-    <nav class="flex items-center gap-1 text-sm font-medium">
+  <div class="max-w-[1200px] w-full h-[50px] px-3 m-auto flex items-center justify-between">
+
+    <div class="flex md:hidden w-full items-center justify-between">
+      <button
+        type="button"
+        (click)="isMobileMenuOpen.set(true)"
+        aria-label="Open menu"
+        class="flex items-center justify-center w-9 h-9 rounded-lg text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-yellow-900/20 transition-colors cursor-pointer"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <rect x="0" y="3" width="20" height="2" rx="1"/>
+          <rect x="0" y="9" width="20" height="2" rx="1"/>
+          <rect x="0" y="15" width="20" height="2" rx="1"/>
+        </svg>
+      </button>
+
+      <img src="/logo-horz.png" alt="The 7 Kingdoms" class="h-10 absolute left-1/2 -translate-x-1/2" />
+
+      <button
+        type="button"
+        (click)="themeService.toggle()"
+        [attr.aria-label]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+        class="flex items-center justify-center w-9 h-9 cursor-pointer rounded-lg hover:bg-stone-100 dark:hover:bg-yellow-900/20 transition-colors"
+      >
+        <img
+          [src]="themeService.isDark() ? '/svgs/moon.svg' : '/svgs/sun.svg'"
+          alt=""
+          class="w-4 h-4 invert"
+          aria-hidden="true"
+        />
+      </button>
+    </div>
+
+    <img src="/logo-horz.png" alt="The 7 Kingdoms" class="hidden md:block h-10" />
+
+    <nav class="hidden md:flex items-center gap-1 text-sm font-medium h-full">
       @for (link of navLinks; track link.path) {
         <a
           [routerLink]="link.path"
           routerLinkActive="bg-yellow-50 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 border-b-2 border-yellow-600 dark:border-yellow-400"
-          class="px-3 py-1.5 rounded-t border-b-2 border-transparent text-stone-600 dark:text-stone-300 hover:text-yellow-700 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-colors"
-        >{{ link.label }}</a>
+          class="flex items-center gap-1.5 px-3 h-full border-b-2 border-transparent text-stone-600 dark:text-stone-300 hover:text-yellow-700 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-colors"
+        >
+          <img [src]="link.icon" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
+          {{ link.label }}
+        </a>
       }
     </nav>
 
-    <div class="flex items-center gap-5">
+    <div class="hidden md:flex items-center gap-5">
       <button
         type="button"
         (click)="themeService.toggle()"
@@ -39,5 +74,10 @@
         <span class="dark:text-white">Logout</span>
       </button>
     </div>
+
   </div>
 </header>
+
+@if (isMobileMenuOpen()) {
+  <app-sidebar (closed)="isMobileMenuOpen.set(false)" />
+}
