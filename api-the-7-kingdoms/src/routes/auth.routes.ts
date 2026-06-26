@@ -57,8 +57,9 @@ const authRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
       });
 
       return reply.send(userStore.toPublic(user));
-    } catch {
-      return reply.status(401).send({ message: "Invalid credentials" });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Invalid credentials";
+      return reply.status(401).send({ message });
     }
   });
 

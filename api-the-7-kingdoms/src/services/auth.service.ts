@@ -14,11 +14,11 @@ export const authService = {
   async login(email: string, password: string): Promise<User> {
     const user = userStore.findByEmail(email);
     if (!user) {
-      throw new Error("Invalid credentials");
+      throw new Error("No account found with this email address");
     }
     const valid = await bcrypt.compare(password, user.passwordHash);
     if (!valid) {
-      throw new Error("Invalid credentials");
+      throw new Error("Incorrect password");
     }
     return user;
   },
