@@ -14,7 +14,7 @@ interface HttpOptions {
 @Injectable({
   providedIn: 'root',
 })
-export class ApiService {
+export class HttpService {
   private readonly http = inject(HttpClient);
 
   private buildParams(params: QueryParams): HttpParams {

@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -6,9 +5,11 @@ import { environment } from '../../../environments/environment.development';
 import { API_ROUTES } from '../constants/api-routes.constant';
 import { AuthUser } from '../types/auth.model';
 
+import { HttpService } from './http.service';
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly http = inject(HttpClient);
+  private readonly http = inject(HttpService);
 
   checkAuth(): Observable<AuthUser> {
     return this.http.get<AuthUser>(`${environment.apiUrl}${API_ROUTES.auth.me}`);
@@ -30,6 +31,6 @@ export class AuthService {
   }
 
   signOut(): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(`${environment.apiUrl}${API_ROUTES.auth.logout}`, {});
+    return this.http.post<{ message: string }>(`${environment.apiUrl}${API_ROUTES.auth.logout}`);
   }
 }
