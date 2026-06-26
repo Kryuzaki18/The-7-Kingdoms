@@ -14,7 +14,7 @@ export const favoritesService = {
     return getOrCreate(userId);
   },
 
-  addCharacter(userId: string, item: Pick<FavoriteItem, 'url' | 'name'>): UserFavorites {
+  addCharacter(userId: string, item: Pick<FavoriteItem, 'url' | 'name'> & { culture?: string; gender?: string }): UserFavorites {
     const favorites = getOrCreate(userId);
     if (!favorites.characters.some((c) => c.url === item.url)) {
       favorites.characters.push({ ...item, addedAt: new Date().toISOString() });
@@ -30,7 +30,7 @@ export const favoritesService = {
     return favorites;
   },
 
-  addHouse(userId: string, item: Pick<FavoriteItem, 'url' | 'name'>): UserFavorites {
+  addHouse(userId: string, item: Pick<FavoriteItem, 'url' | 'name'> & { region?: string }): UserFavorites {
     const favorites = getOrCreate(userId);
     if (!favorites.houses.some((h) => h.url === item.url)) {
       favorites.houses.push({ ...item, addedAt: new Date().toISOString() });
