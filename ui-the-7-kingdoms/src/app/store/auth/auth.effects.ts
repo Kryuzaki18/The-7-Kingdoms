@@ -50,7 +50,7 @@ export const signupSuccessEffect = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) =>
     actions$.pipe(
       ofType(AuthActions.signupSuccess),
-      tap(() => router.navigate(['/home'])),
+      tap(() => router.navigate(['/login'])),
     ),
   { functional: true, dispatch: false },
 );
