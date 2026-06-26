@@ -20,19 +20,34 @@
 
       <img src="logo-horz.png" alt="The 7 Kingdoms" class="h-10 absolute left-1/2 -translate-x-1/2" />
 
-      <button
-        type="button"
-        (click)="themeService.toggle()"
-        [attr.aria-label]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
-        class="flex items-center justify-center w-9 h-9 cursor-pointer rounded-lg hover:bg-stone-100 dark:hover:bg-yellow-900/20 transition-colors"
-      >
-        <img
-          [src]="themeService.isDark() ? 'svgs/moon.svg' : 'svgs/sun.svg'"
-          alt=""
-          class="w-4 h-4 invert"
-          aria-hidden="true"
-        />
-      </button>
+      <div class="flex items-center gap-0.5">
+        <button
+          type="button"
+          (click)="soundService.toggle()"
+          [attr.aria-label]="soundService.isMuted() ? 'Enable ambient sound' : 'Mute ambient sound'"
+          class="flex items-center justify-center w-9 h-9 cursor-pointer rounded-lg hover:bg-stone-100 dark:hover:bg-yellow-900/20 transition-colors"
+        >
+          <img
+            [src]="soundService.isMuted() ? 'svgs/sound-off.svg' : 'svgs/sound.svg'"
+            alt=""
+            class="w-4 h-4 dark:invert"
+            aria-hidden="true"
+          />
+        </button>
+        <button
+          type="button"
+          (click)="themeService.toggle()"
+          [attr.aria-label]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+          class="flex items-center justify-center w-9 h-9 cursor-pointer rounded-lg hover:bg-stone-100 dark:hover:bg-yellow-900/20 transition-colors"
+        >
+          <img
+            [src]="themeService.isDark() ? 'svgs/moon.svg' : 'svgs/sun.svg'"
+            alt=""
+            class="w-4 h-4 invert"
+            aria-hidden="true"
+          />
+        </button>
+      </div>
     </div>
 
     <img src="logo-horz.png" alt="The 7 Kingdoms" class="hidden md:block h-10" />
@@ -51,6 +66,19 @@
     </nav>
 
     <div class="hidden md:flex items-center gap-3">
+      <button
+        type="button"
+        (click)="soundService.toggle()"
+        [attr.aria-label]="soundService.isMuted() ? 'Enable ambient sound' : 'Mute ambient sound'"
+        class="flex items-center justify-center w-8 h-8 cursor-pointer"
+      >
+        <img
+          [src]="soundService.isMuted() ? 'svgs/sound-off.svg' : 'svgs/sound.svg'"
+          alt=""
+          class="w-4 h-4 dark:invert"
+          aria-hidden="true"
+        />
+      </button>
       <button
         type="button"
         (click)="themeService.toggle()"

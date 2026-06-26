@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { HeaderComponent } from '../commons/header/header.component';
 import { ThemeService } from '../../core/services/theme.service';
+import { SoundService } from '../../core/services/sound.service';
 
 interface RainDrop {
   left: string;
@@ -31,8 +32,30 @@ function rand(min: number, max: number): number {
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit, OnDestroy {
   readonly themeService = inject(ThemeService);
+  readonly soundService = inject(SoundService);
+
+  private isActive = false;
+
+  constructor() {
+    effect(() => {
+      const isDark = this.themeService.isDark();
+      if (this.isActive) {
+        this.soundService.switchTheme(isDark);
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    this.isActive = true;
+    this.soundService.play(this.themeService.isDark());
+  }
+
+  ngOnDestroy(): void {
+    this.isActive = false;
+    this.soundService.stop();
+  }
 
   readonly rainDrops: RainDrop[] = Array.from({ length: 90 }, () => ({
     left: `${rand(0, 100).toFixed(2)}%`,

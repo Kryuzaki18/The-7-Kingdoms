@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { ThemeService } from '../../../core/services/theme.service';
+import { SoundService } from '../../../core/services/sound.service';
 import * as AuthActions from '../../../store/auth/auth.actions';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
 import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -28,6 +29,7 @@ export class HeaderComponent {
   }
 
   protected readonly themeService = inject(ThemeService);
+  protected readonly soundService = inject(SoundService);
   private readonly store = inject(Store);
   private readonly elementRef = inject(ElementRef);
 
