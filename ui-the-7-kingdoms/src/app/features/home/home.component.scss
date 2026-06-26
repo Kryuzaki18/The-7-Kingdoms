@@ -1,0 +1,60 @@
+@keyframes rain-fall {
+  0% {
+    transform: translateY(-120px);
+    opacity: 0;
+  }
+  8% {
+    opacity: var(--rain-op, 0.5);
+  }
+  92% {
+    opacity: var(--rain-op, 0.5);
+  }
+  100% {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
+
+@keyframes star-twinkle {
+  0%,
+  100% {
+    opacity: var(--star-op, 0.8);
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.04;
+    transform: scale(0.65);
+  }
+}
+
+.rain-drop {
+  position: absolute;
+  top: -100px;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(80, 120, 170, 0.75) 30%,
+    rgba(60, 100, 160, 1) 55%,
+    rgba(80, 120, 170, 0.75) 75%,
+    transparent 100%
+  );
+  border-radius: 0 0 50% 50%;
+  animation: rain-fall linear infinite;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.star-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 248, 200, 1) 0%,
+    rgba(255, 255, 255, 0.7) 50%,
+    transparent 100%
+  );
+  animation: star-twinkle ease-in-out infinite;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
