@@ -5,7 +5,7 @@ agent.setMaxListeners(25);
 
 module.exports = {
   '/api': {
-    target: 'https://the-7-kingdoms.onrender.com',
+    target: 'https://api.the7kingdoms.org',
     changeOrigin: true,
     secure: true,
     agent,
