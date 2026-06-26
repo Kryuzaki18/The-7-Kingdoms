@@ -10,7 +10,7 @@
     </h1>
   </div>
   @if (!isLoading() && books().length) {
-    <span class="text-sm text-stone-400 dark:text-stone-500"> {{ books().length }} volumes </span>
+    <span class="text-sm text-stone-400 dark:text-stone-500"> {{ books().length | number }} volumes </span>
   }
 </div>
 
@@ -62,12 +62,17 @@
           <span
             class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-stone-100 dark:bg-yellow-900/30 text-stone-600 dark:text-yellow-500"
           >
-            {{ book.numberOfPages }}&nbsp;pages
+            {{ book.numberOfPages | number }}&nbsp;pages
           </span>
           <span
             class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-stone-100 dark:bg-yellow-900/30 text-stone-600 dark:text-yellow-500"
           >
             {{ book.mediaType }}
+          </span>
+          <span
+            class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-stone-100 dark:bg-yellow-900/30 text-stone-600 dark:text-yellow-500"
+          >
+            {{ book.characters.length | number }}&nbsp;characters
           </span>
         </div>
 

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 
@@ -8,7 +8,7 @@ import { selectBooks, selectBooksError, selectBooksIsLoading } from '../../store
 
 @Component({
   selector: 'app-books',
-  imports: [DatePipe],
+  imports: [DatePipe, DecimalPipe],
   templateUrl: './books.component.html',
   styleUrl: './books.component.scss',
 })
