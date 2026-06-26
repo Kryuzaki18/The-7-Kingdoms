@@ -9,10 +9,11 @@ import {
   SEVEN_DAYS_SECONDS,
   THIRTY_DAYS_SECONDS,
 } from "../constants/auth.constant";
+import { AUTH_RATE_LIMIT } from "../constants/rate-limit.constant";
 import { ROUTES } from "../config/app-routes";
 
 const authRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
-  fastify.post(`/${ROUTES.AUTH.SIGNUP}`, async (request, reply) => {
+  fastify.post(`/${ROUTES.AUTH.SIGNUP}`, { config: { rateLimit: AUTH_RATE_LIMIT } }, async (request, reply) => {
     const parsed = registerSchema.safeParse(request.body);
     if (!parsed.success) {
       return reply.status(400).send({ message: parsed.error.issues[0].message });
@@ -30,7 +31,7 @@ const authRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
     }
   });
 
-  fastify.post(`/${ROUTES.AUTH.LOGIN}`, async (request, reply) => {
+  fastify.post(`/${ROUTES.AUTH.LOGIN}`, { config: { rateLimit: AUTH_RATE_LIMIT } }, async (request, reply) => {
     const parsed = loginSchema.safeParse(request.body);
     if (!parsed.success) {
       return reply.status(400).send({ message: parsed.error.issues[0].message });

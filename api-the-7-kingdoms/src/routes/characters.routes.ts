@@ -1,9 +1,11 @@
 import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import { charactersService } from '../services/characters.service';
+import { GENERAL_RATE_LIMIT } from '../constants/rate-limit.constant';
 
 const charactersRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
   fastify.get<{ Querystring: { page?: string; pageSize?: string; name?: string; gender?: string } }>(
     '/',
+    { config: { rateLimit: GENERAL_RATE_LIMIT } },
     async (request, reply) => {
       try {
         await request.jwtVerify();
@@ -24,6 +26,7 @@ const charactersRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) =>
 
   fastify.get<{ Params: { id: string } }>(
     '/:id',
+    { config: { rateLimit: GENERAL_RATE_LIMIT } },
     async (request, reply) => {
       try {
         await request.jwtVerify();

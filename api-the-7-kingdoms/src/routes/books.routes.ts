@@ -1,8 +1,9 @@
 import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import { booksService } from '../services/books.service';
+import { GENERAL_RATE_LIMIT } from '../constants/rate-limit.constant';
 
 const booksRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
-  fastify.get('/', async (request, reply) => {
+  fastify.get('/', { config: { rateLimit: GENERAL_RATE_LIMIT } }, async (request, reply) => {
     try {
       await request.jwtVerify();
     } catch {
