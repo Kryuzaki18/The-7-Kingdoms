@@ -20,7 +20,7 @@ jobs:
 
       - name: Build
         working-directory: ./ui-the-7-kingdoms
-        run: npx ng build --base-href "/The-7-Kingdoms/"
+        run: npx ng build --base-href "/"
 
       - name: Copy index.html to 404.html
         run: cp ./ui-the-7-kingdoms/dist/ui-the-7-kingdoms/browser/index.html ./ui-the-7-kingdoms/dist/ui-the-7-kingdoms/browser/404.html

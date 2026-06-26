@@ -32,7 +32,7 @@
             ],
             "styles": ["src/styles.scss"],
             "outputPath": "dist/ui-the-7-kingdoms",
-            "baseHref": "/https://github.com/Kryuzaki18/The-7-Kingdoms/"
+            "baseHref": "/"
           },
           "configurations": {
             "production": {
