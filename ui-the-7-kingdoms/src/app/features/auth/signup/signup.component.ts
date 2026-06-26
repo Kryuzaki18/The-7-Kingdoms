@@ -28,11 +28,14 @@ export class SignupComponent implements OnInit {
   readonly showPassword = signal(false);
   readonly showConfirmPassword = signal(false);
 
-  readonly form: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
-    confirmPassword: ['', [Validators.required]],
-  });
+  readonly form: FormGroup = this.fb.group(
+    {
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required]],
+    },
+    { validators: passwordMatchValidator },
+  );
 
   get email() {
     return this.form.get('email')!;
