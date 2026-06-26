@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { API_ROUTES } from '../constants/api-routes.constant';
 import { FavoritesResponse } from '../types/favorites.model';
 import { HttpService } from './http.service';
