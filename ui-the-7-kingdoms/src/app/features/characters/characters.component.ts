@@ -23,13 +23,13 @@ import {
 import { selectFavoriteCharacterUrls } from '../../store/favorites/favorites.selectors';
 
 import { CharactersFiltersComponent } from './characters-filters/characters-filters.component';
-import { CharactersPaginationComponent } from './characters-pagination/characters-pagination.component';
 import { CharacterInfoComponent } from '../shared-components/character-info/character-info.component';
 import { PageTitleComponent } from '../shared-components/page-title/page-title.component';
+import { PagePaginationComponent } from '../shared-components/page-pagination/page-pagination.component';
 
 @Component({
   selector: 'app-characters',
-  imports: [CharactersFiltersComponent, CharactersPaginationComponent, CharacterInfoComponent, PageTitleComponent],
+  imports: [CharactersFiltersComponent, CharacterInfoComponent, PageTitleComponent, PagePaginationComponent],
   templateUrl: './characters.component.html',
   styleUrl: './characters.component.scss',
 })

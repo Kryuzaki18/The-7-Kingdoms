@@ -18,13 +18,13 @@ import { addHouseFavorite, loadFavorites, removeHouseFavorite } from '../../stor
 import { selectFavoriteHouseUrls } from '../../store/favorites/favorites.selectors';
 
 import { HousesFiltersComponent } from './houses-filters.component/houses-filters.component';
-import { HousesPagination } from './houses-pagination/houses-pagination';
 import { HouseInfoComponent } from '../shared-components/house-info/house-info.component';
 import { PageTitleComponent } from '../shared-components/page-title/page-title.component';
+import { PagePaginationComponent } from '../shared-components/page-pagination/page-pagination.component';
 
 @Component({
   selector: 'app-houses',
-  imports: [HousesFiltersComponent, HousesPagination, HouseInfoComponent, PageTitleComponent],
+  imports: [HousesFiltersComponent, HouseInfoComponent, PageTitleComponent, PagePaginationComponent],
   templateUrl: './houses.component.html',
   styleUrl: './houses.component.scss',
 })
