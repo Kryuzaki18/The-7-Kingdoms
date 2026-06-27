@@ -3,10 +3,12 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Store } from '@ngrx/store';
 
-import { ThemeService } from '../../../core/services/theme.service';
-import { SoundService } from '../../../core/services/sound.service';
 import * as AuthActions from '../../../store/auth/auth.actions';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
+
+import { ThemeService } from '../../../core/services/theme.service';
+import { SoundService } from '../../../core/services/sound.service';
+
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
@@ -38,9 +40,9 @@ export class HeaderComponent {
   user = toSignal(this.store.select(selectAuthUser));
 
   protected readonly navLinks = [
-    { label: 'Books', path: '/home/books', icon: 'svgs/book.svg' },
-    { label: 'Characters', path: '/home/characters', icon: 'svgs/character.svg' },
-    { label: 'Houses', path: '/home/houses', icon: 'svgs/castle.svg' },
+    { label: 'Books', path: '/home/books' },
+    { label: 'Characters', path: '/home/characters' },
+    { label: 'Houses', path: '/home/houses' },
   ];
 
   toggleUserMenu(event: Event): void {

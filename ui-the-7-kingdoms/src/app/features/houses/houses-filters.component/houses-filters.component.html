@@ -1,6 +1,6 @@
 <div class="flex flex-wrap items-center gap-2">
   <div
-    class="flex items-center gap-3 px-3 flex-1 min-w-[180px] rounded-lg border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-black/20 transition-colors"
+    class="flex items-center gap-3 px-3 flex-1 min-w-[180px] rounded-lg border border-stone-200 dark:border-yellow-900/40 bg-white/70 dark:bg-black/20 transition-colors"
   >
     <img src="svgs/search.svg" alt="" class="w-4 h-4 shrink-0 dark:invert" aria-hidden="true" />
     <input
@@ -24,7 +24,7 @@
       class="w-full md:w-44 flex items-center justify-between gap-2 pl-3.5 pr-2.5 py-2 rounded-lg text-sm border cursor-pointer select-none transition-all duration-150"
       [class]="isDropdownOpen()
         ? 'border-yellow-500 dark:border-yellow-600 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300'
-        : 'border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-black/20 text-stone-700 dark:text-stone-300 hover:border-yellow-400/60 dark:hover:border-yellow-700/60'"
+        : 'border-stone-200 dark:border-yellow-900/40 bg-white/70 dark:bg-black/20 text-stone-700 dark:text-stone-300 hover:border-yellow-400/60 dark:hover:border-yellow-700/60'"
     >
       <span class="font-medium truncate">{{ selectedRegionLabel }}</span>
       <img
@@ -38,7 +38,7 @@
 
     @if (isDropdownOpen()) {
       <div
-        class="absolute top-[calc(100%+6px)] left-0 min-w-full rounded-xl border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-[#1a1400] shadow-lg shadow-stone-200/60 dark:shadow-black/60 z-20 overflow-hidden py-1"
+        class="absolute top-[calc(100%+6px)] left-0 min-w-full rounded-xl border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-[#1a1400] shadow-lg shadow-stone-200/60 dark:shadow-black/60 z-20 overflow-hidden"
       >
         @for (opt of regionOptions; track opt.value) {
           <button

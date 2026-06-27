@@ -1,5 +1,5 @@
 <header
-  class="sticky top-0 bg-stone-50/50 dark:bg-transparent border-b border-stone-200 dark:border-yellow-900/40"
+  class="sticky top-0 z-40 bg-stone-50/50 dark:bg-transparent border-b border-stone-200 dark:border-yellow-900/40"
 >
   <div class="max-w-[1200px] w-full h-[50px] px-3 m-auto flex items-center justify-between">
 
@@ -52,14 +52,13 @@
 
     <img src="logo-horz.png" alt="The 7 Kingdoms" class="hidden md:block h-10" />
 
-    <nav class="hidden md:flex items-center gap-1 text-sm font-medium h-full">
+    <nav class="hidden md:flex items-center text-sm font-medium h-full">
       @for (link of navLinks; track link.path) {
         <a
           [routerLink]="link.path"
           routerLinkActive="bg-yellow-50/50 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 border-b-2 border-yellow-600 dark:border-yellow-400"
-          class="flex items-center gap-1 px-3 h-full border-b-2 border-transparent text-stone-600 dark:text-stone-300 hover:text-yellow-700 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-colors"
+          class="flex items-center px-3 h-full border-b-2 border-transparent text-stone-600 dark:text-stone-300 hover:text-yellow-700 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-colors"
         >
-          <img [src]="link.icon" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
           {{ link.label }}
         </a>
       }
@@ -105,7 +104,7 @@
 
         @if (isUserMenuOpen()) {
           <div
-            class="absolute right-0 top-full mt-2 w-52 rounded-xl border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-[#1a1400] shadow-lg shadow-stone-200/60 dark:shadow-black/40 overflow-hidden z-50"
+            class="absolute right-0 top-full mt-2 w-52 rounded-xl border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-[#1a1400] shadow-lg shadow-stone-200/60 dark:shadow-black/40 overflow-hidden z-40"
             (click)="$event.stopPropagation()"
           >
             <div class="px-4 py-3">
