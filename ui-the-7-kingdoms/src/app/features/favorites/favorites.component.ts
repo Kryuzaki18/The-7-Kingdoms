@@ -16,10 +16,11 @@ import { CharacterInfoComponent } from '../shared-components/character-info/char
 import { HouseInfoComponent } from '../shared-components/house-info/house-info.component';
 import { FavCharactersComponent } from './fav-characters/fav-characters.component';
 import { FavHousesComponent } from './fav-houses/fav-houses.component';
+import { PageTitleComponent } from '../shared-components/page-title/page-title.component';
 
 @Component({
   selector: 'app-favorites',
-  imports: [CharacterInfoComponent, HouseInfoComponent, FavCharactersComponent, FavHousesComponent],
+  imports: [CharacterInfoComponent, HouseInfoComponent, FavCharactersComponent, FavHousesComponent, PageTitleComponent],
   templateUrl: './favorites.component.html',
   styleUrl: './favorites.component.scss',
 })

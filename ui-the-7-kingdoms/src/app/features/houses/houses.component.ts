@@ -20,10 +20,11 @@ import { selectFavoriteHouseUrls } from '../../store/favorites/favorites.selecto
 import { HousesFiltersComponent } from './houses-filters.component/houses-filters.component';
 import { HousesPagination } from './houses-pagination/houses-pagination';
 import { HouseInfoComponent } from '../shared-components/house-info/house-info.component';
+import { PageTitleComponent } from '../shared-components/page-title/page-title.component';
 
 @Component({
   selector: 'app-houses',
-  imports: [HousesFiltersComponent, HousesPagination, HouseInfoComponent],
+  imports: [HousesFiltersComponent, HousesPagination, HouseInfoComponent, PageTitleComponent],
   templateUrl: './houses.component.html',
   styleUrl: './houses.component.scss',
 })

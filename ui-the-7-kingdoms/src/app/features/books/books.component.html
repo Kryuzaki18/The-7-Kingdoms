@@ -1,18 +1,8 @@
-<div class="flex items-end justify-between mb-8">
-  <div>
-    <p
-      class="text-xs font-medium uppercase tracking-widest text-yellow-600 dark:text-yellow-500 mb-1"
-    >
-      Library
-    </p>
-    <h1 class="text-2xl font-cinzel font-bold tracking-wide text-stone-900 dark:text-stone-100">
-      Books of the Realm
-    </h1>
-  </div>
+<app-page-title subtitle="Library" title="Books of the Realm">
   @if (!isLoading() && books().length) {
     <span class="text-sm text-stone-400 dark:text-stone-500"> {{ books().length | number }} volumes </span>
   }
-</div>
+</app-page-title>
 
 @if (error()) {
   <div

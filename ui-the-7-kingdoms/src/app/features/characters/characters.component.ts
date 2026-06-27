@@ -25,10 +25,11 @@ import { selectFavoriteCharacterUrls } from '../../store/favorites/favorites.sel
 import { CharactersFiltersComponent } from './characters-filters/characters-filters.component';
 import { CharactersPaginationComponent } from './characters-pagination/characters-pagination.component';
 import { CharacterInfoComponent } from '../shared-components/character-info/character-info.component';
+import { PageTitleComponent } from '../shared-components/page-title/page-title.component';
 
 @Component({
   selector: 'app-characters',
-  imports: [CharactersFiltersComponent, CharactersPaginationComponent, CharacterInfoComponent],
+  imports: [CharactersFiltersComponent, CharactersPaginationComponent, CharacterInfoComponent, PageTitleComponent],
   templateUrl: './characters.component.html',
   styleUrl: './characters.component.scss',
 })

@@ -6,9 +6,11 @@ import { Store } from '@ngrx/store';
 import { loadBooks } from '../../store/books/books.actions';
 import { selectBooks, selectBooksError, selectBooksIsLoading } from '../../store/books/books.selectors';
 
+import { PageTitleComponent } from '../shared-components/page-title/page-title.component';
+
 @Component({
   selector: 'app-books',
-  imports: [DatePipe, DecimalPipe],
+  imports: [DatePipe, DecimalPipe, PageTitleComponent],
   templateUrl: './books.component.html',
   styleUrl: './books.component.scss',
 })
