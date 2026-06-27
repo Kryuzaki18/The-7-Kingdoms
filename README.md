@@ -70,8 +70,10 @@ The sound icon in the header is muted by default; the user enables it per sessio
 - **Authentication** — register, login, logout with JWT stored in httpOnly cookies; remember me support
 - **Auth page** — split-screen layout on desktop: lore story panel on the left, login/signup card on the right; stacked on mobile
 - **Books** — browse all books with character counts
-- **Characters** — paginated list with name/gender filters, culture and gender display, detail modal
-- **Houses** — paginated list with name/region filters, coat of arms display, detail modal
+- **Characters** — paginated list/grid with name/gender filters, culture and gender display, detail modal, favorites
+- **Houses** — paginated list/grid with name/region filters, house words display, detail modal, favorites
+- **List / Grid layout** — toggle between list rows and card grid on Characters and Houses pages; grid defaults to 20 items per page
+- **Responsive filters** — filter bars wrap gracefully on mobile; layout toggle always accessible
 - **Favorites** — star characters and houses; dedicated favorites page with tabs, empty state navigation
 - **Ambient FX** — rain animation in light mode, star field in dark mode (CSS-only, GPU-accelerated)
 - **Ambient sound** — rain + thunder (light mode) / night sounds (dark mode); session toggle in header
