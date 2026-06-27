@@ -1,6 +1,8 @@
 <app-page-title subtitle="Library" title="Books of the Realm">
   @if (!isLoading() && books().length) {
-    <span class="text-sm text-stone-400 dark:text-stone-500"> {{ books().length | number }} volumes </span>
+    <span class="text-sm text-stone-400 dark:text-stone-500">
+      {{ books().length | number }} volumes
+    </span>
   }
 </app-page-title>
 
@@ -15,7 +17,7 @@
 
 @if (isLoading()) {
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    @for (i of [1,2,3,4,5,6]; track i) {
+    @for (i of [1, 2, 3, 4, 5, 6]; track i) {
       <div
         class="rounded-xl border border-stone-200 dark:border-yellow-900/30 bg-white dark:bg-black/20 p-5 animate-pulse"
       >
@@ -33,14 +35,15 @@
     }
   </div>
 } @else {
-
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     @for (book of books(); track book.isbn) {
       <div
         class="group flex flex-col rounded-xl border border-stone-200 dark:border-yellow-900/30 bg-white/50 dark:bg-black/20 p-5 hover:border-yellow-500/50 dark:hover:border-yellow-600/50 transition-all duration-200"
       >
         <div class="flex-1 mb-4">
-          <h2 class="font-garamond text-lg font-semibold leading-wide text-stone-900 dark:text-stone-100">
+          <h2
+            class="font-garamond text-lg font-semibold leading-wide text-stone-900 dark:text-stone-100"
+          >
             {{ book.name }}
           </h2>
           <p class="mt-1.5 text-sm text-stone-500 dark:text-stone-400">
@@ -52,12 +55,13 @@
           <span
             class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-stone-100 dark:bg-yellow-900/30 text-stone-600 dark:text-yellow-500"
           >
-            {{ book.numberOfPages | number }}&nbsp;pages
+            {{ book.mediaType }}
           </span>
+
           <span
             class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-stone-100 dark:bg-yellow-900/30 text-stone-600 dark:text-yellow-500"
           >
-            {{ book.mediaType }}
+            {{ book.numberOfPages | number }}&nbsp;pages
           </span>
           <span
             class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-stone-100 dark:bg-yellow-900/30 text-stone-600 dark:text-yellow-500"
