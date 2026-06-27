@@ -6,11 +6,13 @@
   --font-cinzel: 'Cinzel', 'Times New Roman', serif;
   --font-garamond: 'EB Garamond', Georgia, serif;
   --font-lora: 'Lora', Georgia, serif;
+  --font-lato: 'Lato', sans-serif;
 }
 
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Lato', sans-serif;
   font-size: 16px;
   line-height: 1.6;
 }
