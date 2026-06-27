@@ -22,7 +22,7 @@ import {
 } from '../../store/favorites/favorites.actions';
 import { selectFavoriteCharacterUrls } from '../../store/favorites/favorites.selectors';
 
-import { CharactersFiltersComponent } from './characters-filters/characters-filters.component';
+import { CharactersFiltersComponent, CharactersLayout } from './characters-filters/characters-filters.component';
 import { CharacterInfoComponent } from '../shared-components/character-info/character-info.component';
 import { PageTitleComponent } from '../shared-components/page-title/page-title.component';
 import { PagePaginationComponent } from '../shared-components/page-pagination/page-pagination.component';
@@ -53,6 +53,7 @@ export class CharactersComponent {
   initialGenderFilter = signal('');
   currentPageSize = signal(10);
   showScrollTop = signal(false);
+  layout = signal<CharactersLayout>('list');
 
   private readonly nameSearch$ = new Subject<string>();
   private readonly genderChange$ = new Subject<string>();

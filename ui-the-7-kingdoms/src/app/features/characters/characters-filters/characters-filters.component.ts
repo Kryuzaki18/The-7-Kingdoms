@@ -9,6 +9,8 @@ import {
   signal,
 } from '@angular/core';
 
+export type CharactersLayout = 'list' | 'grid';
+
 import { CharactersFilters } from '../../../core/types/characters.model';
 
 @Component({
@@ -34,12 +36,14 @@ export class CharactersFiltersComponent {
   @Input() set gender(v: string) { this.genderValue.set(v); }
 
   @Output() filtersChange = new EventEmitter<CharactersFilters>();
+  @Output() layoutChange = new EventEmitter<CharactersLayout>();
 
   private readonly elementRef = inject(ElementRef);
 
   nameValue = signal('');
   genderValue = signal('');
   isDropdownOpen = signal(false);
+  layout = signal<CharactersLayout>('list');
 
   readonly genderOptions = [
     { value: '', label: 'All genders' },
@@ -77,6 +81,11 @@ export class CharactersFiltersComponent {
     this.genderValue.set('');
     this.isDropdownOpen.set(false);
     this.emit();
+  }
+
+  setLayout(value: CharactersLayout): void {
+    this.layout.set(value);
+    this.layoutChange.emit(value);
   }
 
   private emit(): void {
