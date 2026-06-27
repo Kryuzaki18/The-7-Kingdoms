@@ -5,7 +5,7 @@
     >
       People
     </p>
-    <h1 class="text-2xl font-cinzel font-bold tracking-tight text-stone-900 dark:text-stone-100">Characters</h1>
+    <h1 class="text-2xl font-cinzel font-bold tracking-wide text-stone-900 dark:text-stone-100">Characters</h1>
   </div>
 
   @if (!isLoading() && characters().length) {
@@ -102,15 +102,15 @@
           type="button"
           (click)="toggleFavorite($event, character)"
           [attr.aria-label]="isFavorited(character.url) ? 'Remove from favorites' : 'Add to favorites'"
-          class="shrink-0 flex items-center justify-center w-7 h-7 rounded-full transition-all duration-150 cursor-pointer"
+          class="flex items-center justify-center w-7 h-7 rounded-full transition-all duration-150 cursor-pointer"
           [class]="isFavorited(character.url)
-            ? 'bg-yellow-50 dark:bg-yellow-900/30 hover:bg-yellow-100 dark:hover:bg-yellow-900/50'
-            : 'hover:bg-stone-100 dark:hover:bg-stone-800/30'"
+            ? 'bg-yellow-100 dark:bg-yellow-900/50 hover:bg-yellow-300 dark:hover:bg-yellow-900'
+            : 'hover:bg-stone-50 dark:hover:bg-stone-800'"
         >
           <img
             [src]="isFavorited(character.url) ? 'svgs/starred.svg' : 'svgs/star.svg'"
             alt=""
-            class="w-3.5 h-3.5 dark:invert transition-opacity"
+            class="w-3.5 h-3.5 dark:invert"
             [class.opacity-25]="!isFavorited(character.url)"
             aria-hidden="true"
           />
@@ -142,7 +142,7 @@
     type="button"
     (click)="scrollToTop()"
     aria-label="Scroll to top"
-    class="fixed md:bottom-6 md:left-1/2 -translate-x-1/2 right-5 bottom-15 z-40 flex items-center justify-center w-10 h-10 rounded-full border border-stone-200 dark:border-yellow-900/40 bg-white dark:bg-[#1a1400] text-stone-400 dark:text-stone-500 shadow-md shadow-stone-200/60 dark:shadow-black/40 hover:border-yellow-500/60 dark:hover:border-yellow-600/60 hover:text-yellow-700 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-all duration-150 cursor-pointer"
+    class="fixed md:bottom-4 md:left-1/2 -translate-x-1/2 right-0 bottom-15 z-40 flex items-center justify-center w-10 h-10 rounded-full border border-stone-400/70 dark:border-yellow-900/40 bg-white/70 dark:bg-[#1a1400] text-stone-400 dark:text-stone-500 shadow-md shadow-stone-200/60 dark:shadow-black/40 hover:border-yellow-500/60 dark:hover:border-yellow-600/60 hover:text-yellow-700 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-all duration-150 cursor-pointer"
   >
     <img src="svgs/chevron-left.svg" alt="" class="w-5 h-5 rotate-90 dark:invert" aria-hidden="true" />
   </button>

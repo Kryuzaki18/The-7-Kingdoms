@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { Subject, debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
 
 import { Character, CharactersFilters } from '../../core/types/characters.model';
+
 import { loadCharacters } from '../../store/characters/characters.actions';
 import {
   selectCharacters,
@@ -14,7 +15,11 @@ import {
   selectCharactersIsLoading,
   selectCharactersPage,
 } from '../../store/characters/characters.selectors';
-import { addCharacterFavorite, loadFavorites, removeCharacterFavorite } from '../../store/favorites/favorites.actions';
+import {
+  addCharacterFavorite,
+  loadFavorites,
+  removeCharacterFavorite,
+} from '../../store/favorites/favorites.actions';
 import { selectFavoriteCharacterUrls } from '../../store/favorites/favorites.selectors';
 
 import { CharactersFiltersComponent } from './characters-filters/characters-filters.component';
@@ -38,7 +43,9 @@ export class CharactersComponent {
   error = toSignal(this.store.select(selectCharactersError), { initialValue: null });
   page = toSignal(this.store.select(selectCharactersPage), { initialValue: 1 });
   hasMore = toSignal(this.store.select(selectCharactersHasMore), { initialValue: false });
-  favoriteUrls = toSignal(this.store.select(selectFavoriteCharacterUrls), { initialValue: new Set<string>() });
+  favoriteUrls = toSignal(this.store.select(selectFavoriteCharacterUrls), {
+    initialValue: new Set<string>(),
+  });
 
   selectedCharacter = signal<Character | null>(null);
   initialNameFilter = signal('');
@@ -73,10 +80,7 @@ export class CharactersComponent {
         })),
         distinctUntilChanged(
           (a, b) =>
-            a.page === b.page &&
-            a.size === b.size &&
-            a.name === b.name &&
-            a.gender === b.gender,
+            a.page === b.page && a.size === b.size && a.name === b.name && a.gender === b.gender,
         ),
         takeUntilDestroyed(),
       )
@@ -90,7 +94,12 @@ export class CharactersComponent {
         }
 
         this.store.dispatch(
-          loadCharacters({ page, pageSize: size, name: name || undefined, gender: gender || undefined }),
+          loadCharacters({
+            page,
+            pageSize: size,
+            name: name || undefined,
+            gender: gender || undefined,
+          }),
         );
 
         const current = this.route.snapshot.queryParams;
@@ -115,17 +124,15 @@ export class CharactersComponent {
         this.scrollToTop();
       });
 
-    this.genderChange$
-      .pipe(distinctUntilChanged(), takeUntilDestroyed())
-      .subscribe((gender) => {
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: { page: 1, size: this.currentPageSize(), gender: gender || null },
-          queryParamsHandling: 'merge',
-          replaceUrl: true,
-        });
-        this.scrollToTop();
+    this.genderChange$.pipe(distinctUntilChanged(), takeUntilDestroyed()).subscribe((gender) => {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { page: 1, size: this.currentPageSize(), gender: gender || null },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
       });
+      this.scrollToTop();
+    });
   }
 
   onFiltersChange(filters: CharactersFilters): void {
@@ -178,7 +185,13 @@ export class CharactersComponent {
     if (this.isFavorited(character.url)) {
       this.store.dispatch(removeCharacterFavorite({ url: character.url }));
     } else {
-      this.store.dispatch(addCharacterFavorite({ url: character.url, name: this.getDisplayName(character), culture: character.culture || undefined, gender: character.gender || undefined }));
+      const fav = {
+        url: character.url,
+        name: this.getDisplayName(character),
+        culture: character.culture || undefined,
+        gender: character.gender || undefined,
+      };
+      this.store.dispatch(addCharacterFavorite(fav));
     }
   }
 }
