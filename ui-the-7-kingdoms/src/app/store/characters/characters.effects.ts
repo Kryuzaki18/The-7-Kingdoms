@@ -4,13 +4,13 @@ import { catchError, map, of, switchMap } from 'rxjs';
 import { CharactersService } from '../../core/services/characters.service';
 import * as CharactersActions from './characters.actions';
 
-const DEFAULT_PAGE_SIZE = 10;
+import { APP_SETTINGS } from '../../core/constants/app-settings.constant';
 
 export const loadCharactersEffect = createEffect(
   (actions$ = inject(Actions), charactersService = inject(CharactersService)) =>
     actions$.pipe(
       ofType(CharactersActions.loadCharacters),
-      switchMap(({ page, pageSize = DEFAULT_PAGE_SIZE, name, gender }) =>
+      switchMap(({ page, pageSize = APP_SETTINGS.pageSize, name, gender }) =>
         charactersService.getCharacters(page, pageSize, name, gender).pipe(
           map((characters) =>
             CharactersActions.loadCharactersSuccess({

@@ -1,0 +1,44 @@
+<div
+  role="button"
+  tabindex="0"
+  (click)="clicked.emit()"
+  (keydown.enter)="clicked.emit()"
+  class="group rounded-xl border border-stone-200 dark:border-yellow-950/60 bg-white/50 dark:bg-black/20 hover:border-yellow-500/50 dark:hover:border-yellow-600/50 hover:bg-yellow-50/50 dark:hover:bg-yellow-900/10 transition-all duration-150 cursor-pointer"
+  [class]="layout() === 'list'
+    ? 'w-full flex items-center gap-4 px-5 py-3.5 text-left'
+    : 'h-full flex flex-col p-4'"
+>
+  <div [class]="layout() === 'list' ? 'flex-1 min-w-0' : 'order-2'">
+    <p
+      class="text-sm font-medium leading-snug truncate text-stone-900 dark:text-stone-100"
+      [class.italic]="titleItalic()"
+      [class.text-stone-500]="titleItalic()"
+      [class.dark:text-stone-400]="titleItalic()"
+    >
+      {{ title() }}
+    </p>
+    @if (subtitle()) {
+      <p class="text-xs text-stone-400 dark:text-stone-500 truncate mt-0.5">{{ subtitle() }}</p>
+    }
+  </div>
+
+  <div [class]="layout() === 'list' ? 'contents' : 'order-1 flex items-center gap-2 mb-2.5'">
+    <div class="shrink-0">
+      <ng-content select="[card-badge]" />
+    </div>
+    <div [class]="layout() === 'list' ? 'shrink-0' : 'ms-auto shrink-0 flex items-center'">
+      <ng-content select="[card-action]" />
+    </div>
+  </div>
+
+  <img
+    src="svgs/chevron-right.svg"
+    alt=""
+    aria-hidden="true"
+    [class]="layout() === 'list' ? 'w-4 h-4 shrink-0 dark:invert' : 'hidden'"
+  />
+
+  <div [class]="layout() === 'grid' ? 'order-3' : 'hidden'">
+    <ng-content select="[card-extra]" />
+  </div>
+</div>

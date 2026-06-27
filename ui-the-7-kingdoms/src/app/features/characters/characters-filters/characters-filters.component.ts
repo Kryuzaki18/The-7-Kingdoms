@@ -11,6 +11,7 @@ import {
 
 import { CharactersFilters } from '../../../core/types/characters.model';
 import { Layout } from '../../../core/types/layout';
+import { APP_SETTINGS } from '../../../core/constants/app-settings.constant';
 
 @Component({
   selector: 'app-characters-filters',
@@ -42,7 +43,7 @@ export class CharactersFiltersComponent {
   nameValue = signal('');
   genderValue = signal('');
   isDropdownOpen = signal(false);
-  layout = signal<Layout>('list');
+  layout = signal<Layout>(APP_SETTINGS.layout);
 
   readonly genderOptions = [
     { value: '', label: 'All genders' },

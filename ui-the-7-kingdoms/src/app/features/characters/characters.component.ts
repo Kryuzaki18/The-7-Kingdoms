@@ -7,6 +7,7 @@ import { Subject, debounceTime, distinctUntilChanged, fromEvent, map } from 'rxj
 
 import { Character, CharactersFilters } from '../../core/types/characters.model';
 import { Layout } from '../../core/types/layout';
+import { APP_SETTINGS } from '../../core/constants/app-settings.constant';
 
 import { loadCharacters } from '../../store/characters/characters.actions';
 import {
@@ -27,10 +28,17 @@ import { CharactersFiltersComponent } from './characters-filters/characters-filt
 import { CharacterInfoComponent } from '../shared-components/character-info/character-info.component';
 import { PageTitleComponent } from '../shared-components/page-title/page-title.component';
 import { PagePaginationComponent } from '../shared-components/page-pagination/page-pagination.component';
+import { GenericCardComponent } from '../shared-components/generic-card/generic-card.component';
 
 @Component({
   selector: 'app-characters',
-  imports: [CharactersFiltersComponent, CharacterInfoComponent, PageTitleComponent, PagePaginationComponent],
+  imports: [
+    CharactersFiltersComponent,
+    CharacterInfoComponent,
+    PageTitleComponent,
+    PagePaginationComponent,
+    GenericCardComponent,
+  ],
   templateUrl: './characters.component.html',
   styleUrl: './characters.component.scss',
 })
@@ -52,15 +60,16 @@ export class CharactersComponent {
   selectedCharacter = signal<Character | null>(null);
   initialNameFilter = signal('');
   initialGenderFilter = signal('');
-  currentPageSize = signal(10);
+  currentPageSize = signal(APP_SETTINGS.pageSize);
+  layout = signal<Layout>(APP_SETTINGS.layout);
   showScrollTop = signal(false);
-  layout = signal<Layout>('list');
 
   private readonly nameSearch$ = new Subject<string>();
   private readonly genderChange$ = new Subject<string>();
   private filterInitialized = false;
 
-  readonly skeletons = Array.from({ length: 10 }, (_, i) => i);
+  readonly skeletonsList = Array.from({ length: 10 }, (_, i) => i);
+  readonly skeletonsGrid = Array.from({ length: 20 }, (_, i) => i);
 
   constructor() {
     this.store.dispatch(loadFavorites());
@@ -77,7 +86,7 @@ export class CharactersComponent {
       .pipe(
         map((params) => ({
           page: Math.max(1, Number(params['page']) || 1),
-          size: Math.min(50, Math.max(1, Number(params['size']) || 10)),
+          size: Math.min(50, Math.max(1, Number(params['size']) || APP_SETTINGS.pageSize)),
           name: params['name'] || '',
           gender: params['gender'] || '',
         })),
@@ -147,7 +156,7 @@ export class CharactersComponent {
     this.layout.set(value);
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { page: 1, size: value === 'grid' ? 20 : 10 },
+      queryParams: { page: 1, size: value === APP_SETTINGS.layout ? APP_SETTINGS.pageSize : 10 },
       queryParamsHandling: 'merge',
       replaceUrl: true,
     });

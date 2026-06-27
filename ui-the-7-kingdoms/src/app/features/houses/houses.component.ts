@@ -7,6 +7,7 @@ import { Subject, debounceTime, distinctUntilChanged, fromEvent, map } from 'rxj
 
 import { House, HousesFilters } from '../../core/types/houses.model';
 import { Layout } from '../../core/types/layout';
+import { APP_SETTINGS } from '../../core/constants/app-settings.constant';
 
 import { loadHouses } from '../../store/houses/houses.actions';
 import {
@@ -16,17 +17,28 @@ import {
   selectHousesIsLoading,
   selectHousesPage,
 } from '../../store/houses/houses.selectors';
-import { addHouseFavorite, loadFavorites, removeHouseFavorite } from '../../store/favorites/favorites.actions';
+import {
+  addHouseFavorite,
+  loadFavorites,
+  removeHouseFavorite,
+} from '../../store/favorites/favorites.actions';
 import { selectFavoriteHouseUrls } from '../../store/favorites/favorites.selectors';
 
 import { HousesFiltersComponent } from './houses-filters.component/houses-filters.component';
 import { HouseInfoComponent } from '../shared-components/house-info/house-info.component';
 import { PageTitleComponent } from '../shared-components/page-title/page-title.component';
 import { PagePaginationComponent } from '../shared-components/page-pagination/page-pagination.component';
+import { GenericCardComponent } from '../shared-components/generic-card/generic-card.component';
 
 @Component({
   selector: 'app-houses',
-  imports: [HousesFiltersComponent, HouseInfoComponent, PageTitleComponent, PagePaginationComponent],
+  imports: [
+    HousesFiltersComponent,
+    HouseInfoComponent,
+    PageTitleComponent,
+    PagePaginationComponent,
+    GenericCardComponent,
+  ],
   templateUrl: './houses.component.html',
   styleUrl: './houses.component.scss',
 })
@@ -41,16 +53,19 @@ export class HousesComponent {
   error = toSignal(this.store.select(selectHousesError), { initialValue: null });
   page = toSignal(this.store.select(selectHousesPage), { initialValue: 1 });
   hasMore = toSignal(this.store.select(selectHousesHasMore), { initialValue: false });
-  favoriteUrls = toSignal(this.store.select(selectFavoriteHouseUrls), { initialValue: new Set<string>() });
+  favoriteUrls = toSignal(this.store.select(selectFavoriteHouseUrls), {
+    initialValue: new Set<string>(),
+  });
 
   selectedHouse = signal<House | null>(null);
   initialNameFilter = signal('');
   initialRegionFilter = signal('');
-  currentPageSize = signal(10);
+  currentPageSize = signal(APP_SETTINGS.pageSize);
+  layout = signal<Layout>(APP_SETTINGS.layout);
   showScrollTop = signal(false);
-  layout = signal<Layout>('list');
 
-  readonly skeletons = Array.from({ length: 10 }, (_, i) => i);
+  readonly skeletonsList = Array.from({ length: 10 }, (_, i) => i);
+  readonly skeletonsGrid = Array.from({ length: 20 }, (_, i) => i);
 
   private readonly nameSearch$ = new Subject<string>();
   private readonly regionChange$ = new Subject<string>();
@@ -71,16 +86,13 @@ export class HousesComponent {
       .pipe(
         map((params) => ({
           page: Math.max(1, Number(params['page']) || 1),
-          size: Math.min(50, Math.max(1, Number(params['size']) || 10)),
+          size: Math.min(50, Math.max(1, Number(params['size']) || APP_SETTINGS.pageSize)),
           name: params['name'] || '',
           region: params['region'] || '',
         })),
         distinctUntilChanged(
           (a, b) =>
-            a.page === b.page &&
-            a.size === b.size &&
-            a.name === b.name &&
-            a.region === b.region,
+            a.page === b.page && a.size === b.size && a.name === b.name && a.region === b.region,
         ),
         takeUntilDestroyed(),
       )
@@ -94,7 +106,12 @@ export class HousesComponent {
         }
 
         this.store.dispatch(
-          loadHouses({ page, pageSize: size, name: name || undefined, region: region || undefined }),
+          loadHouses({
+            page,
+            pageSize: size,
+            name: name || undefined,
+            region: region || undefined,
+          }),
         );
 
         const current = this.route.snapshot.queryParams;
@@ -119,17 +136,15 @@ export class HousesComponent {
         this.scrollToTop();
       });
 
-    this.regionChange$
-      .pipe(distinctUntilChanged(), takeUntilDestroyed())
-      .subscribe((region) => {
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: { page: 1, size: this.currentPageSize(), region: region || null },
-          queryParamsHandling: 'merge',
-          replaceUrl: true,
-        });
-        this.scrollToTop();
+    this.regionChange$.pipe(distinctUntilChanged(), takeUntilDestroyed()).subscribe((region) => {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { page: 1, size: this.currentPageSize(), region: region || null },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
       });
+      this.scrollToTop();
+    });
   }
 
   onFiltersChange(filters: HousesFilters): void {
@@ -141,7 +156,7 @@ export class HousesComponent {
     this.layout.set(value);
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { page: 1, size: value === 'grid' ? 20 : 10 },
+      queryParams: { page: 1, size: value === APP_SETTINGS.layout ? APP_SETTINGS.pageSize : 10 },
       queryParamsHandling: 'merge',
       replaceUrl: true,
     });
@@ -187,7 +202,13 @@ export class HousesComponent {
     if (this.isFavorited(house.url)) {
       this.store.dispatch(removeHouseFavorite({ url: house.url }));
     } else {
-      this.store.dispatch(addHouseFavorite({ url: house.url, name: house.name || 'Unknown House', region: house.region || undefined }));
+      this.store.dispatch(
+        addHouseFavorite({
+          url: house.url,
+          name: house.name || 'Unknown House',
+          region: house.region || undefined,
+        }),
+      );
     }
   }
 }

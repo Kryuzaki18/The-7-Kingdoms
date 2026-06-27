@@ -4,13 +4,13 @@ import { catchError, map, of, switchMap } from 'rxjs';
 import { HousesService } from '../../core/services/houses.service';
 import * as HousesActions from './houses.actions';
 
-const DEFAULT_PAGE_SIZE = 10;
+import { APP_SETTINGS } from '../../core/constants/app-settings.constant';
 
 export const loadHousesEffect = createEffect(
   (actions$ = inject(Actions), housesService = inject(HousesService)) =>
     actions$.pipe(
       ofType(HousesActions.loadHouses),
-      switchMap(({ page, pageSize = DEFAULT_PAGE_SIZE, name, region }) =>
+      switchMap(({ page, pageSize = APP_SETTINGS.pageSize, name, region }) =>
         housesService.getHouses(page, pageSize, name, region).pipe(
           map((houses) =>
             HousesActions.loadHousesSuccess({

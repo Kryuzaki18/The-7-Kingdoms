@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { HousesFilters } from '../../../core/types/houses.model';
 import { Layout } from '../../../core/types/layout';
+import { APP_SETTINGS } from '../../../core/constants/app-settings.constant';
 
 @Component({
   selector: 'app-houses-filters',
@@ -41,7 +42,7 @@ export class HousesFiltersComponent {
   nameValue = signal('');
   regionValue = signal('');
   isDropdownOpen = signal(false);
-  layout = signal<Layout>('list');
+  layout = signal<Layout>(APP_SETTINGS.layout);
 
   readonly regionOptions = [
     { value: '', label: 'All regions' },

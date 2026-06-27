@@ -14,23 +14,12 @@
 } @else {
   <div class="space-y-2">
     @for (item of items; track item.url) {
-      <div
-        role="button"
-        tabindex="0"
-        (click)="open.emit(item.url)"
-        (keydown.enter)="open.emit(item.url)"
-        class="group flex items-center gap-4 rounded-xl border border-stone-200 dark:border-yellow-950/60 bg-white/50 dark:bg-black/20 px-5 py-3.5 hover:border-yellow-500/50 dark:hover:border-yellow-600/50 hover:bg-yellow-50/50 dark:hover:bg-yellow-900/10 transition-all duration-150 cursor-pointer"
+      <app-generic-card
+        [title]="item.name || 'Unknown House'"
+        [subtitle]="item.region || undefined"
+        (clicked)="open.emit(item.url)"
       >
-        <!-- <img src="svgs/castle.svg" alt="" class="w-4 h-4 shrink-0 dark:invert opacity-40" aria-hidden="true" /> -->
-        <div class="flex-1 min-w-0">
-          <p class="text-sm font-medium truncate text-stone-900 dark:text-stone-100">
-            {{ item.name || 'Unknown House' }}
-          </p>
-          @if (item.region) {
-            <p class="text-xs text-stone-400 dark:text-stone-500 truncate mt-0.5">{{ item.region }}</p>
-          }
-        </div>
-        <button
+        <button card-action
           type="button"
           (click)="$event.stopPropagation(); remove.emit(item.url)"
           aria-label="Remove from favorites"
@@ -38,8 +27,7 @@
         >
           <img src="svgs/starred.svg" alt="" class="w-3.5 h-3.5 dark:invert" aria-hidden="true" />
         </button>
-        <img src="svgs/chevron-right.svg" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
-      </div>
+      </app-generic-card>
     }
   </div>
 }

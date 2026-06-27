@@ -27,7 +27,7 @@
 @if (isLoading()) {
   @if (layout() === 'list') {
     <div class="space-y-2">
-      @for (i of skeletons; track i) {
+      @for (i of skeletonsList; track i) {
         <div
           class="flex items-center gap-4 rounded-xl border border-stone-200 dark:border-yellow-900/30 bg-white dark:bg-black/20 px-5 py-3.5 animate-pulse"
         >
@@ -41,7 +41,7 @@
     </div>
   } @else {
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-      @for (i of skeletons; track i) {
+      @for (i of skeletonsGrid; track i) {
         <div class="rounded-xl border border-stone-200 dark:border-yellow-900/30 bg-white dark:bg-black/20 p-4 animate-pulse">
           <div class="flex items-center justify-between mb-3">
             <div class="h-3.5 bg-stone-200 dark:bg-stone-700/50 rounded w-3/5"></div>
@@ -67,104 +67,46 @@
 }
 
 @if (!isLoading() && houses().length > 0) {
-  @if (layout() === 'list') {
-    <div class="space-y-2">
-      @for (house of houses(); track house.url) {
-        <div
-          role="button"
-          tabindex="0"
-          (click)="openHouse(house)"
-          (keydown.enter)="openHouse(house)"
-          class="group w-full flex items-center gap-4 rounded-xl border border-stone-200 dark:border-yellow-950/60 bg-white/50 dark:bg-black/20 px-5 py-3.5 text-left hover:border-yellow-500/50 dark:hover:border-yellow-600/50 hover:bg-yellow-50/50 dark:hover:bg-yellow-900/10 transition-all duration-150 cursor-pointer"
-        >
-          <div class="flex-1 min-w-0">
-            <p class="text-sm font-medium truncate text-stone-900 dark:text-stone-100">
-              {{ house.name || 'Unknown House' }}
-            </p>
-            @if (house.region) {
-              <p class="text-xs text-stone-400 dark:text-stone-500 truncate mt-0.5">
-                {{ house.region }}
-              </p>
-            }
-          </div>
-
-          @if (house.words) {
-            <span
-              class="shrink-0 hidden sm:inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800/40 max-w-[180px] truncate"
-            >
-              {{ house.words }}
-            </span>
-          }
-
-          <button
-            type="button"
-            (click)="toggleFavorite($event, house)"
-            [attr.aria-label]="isFavorited(house.url) ? 'Remove from favorites' : 'Add to favorites'"
-            class="flex items-center justify-center w-7 h-7 rounded-full transition-all duration-150 cursor-pointer"
-            [class]="isFavorited(house.url)
-              ? 'bg-yellow-50 dark:bg-yellow-900/30 hover:bg-yellow-100 dark:hover:bg-yellow-900/50'
-              : 'hover:bg-stone-100 dark:hover:bg-stone-800/30'"
+  <div [class]="layout() === 'list' ? 'space-y-2' : 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3'">
+    @for (house of houses(); track house.url) {
+      <app-generic-card
+        [title]="house.name || 'Unknown House'"
+        [subtitle]="house.region || undefined"
+        [layout]="layout()"
+        (clicked)="openHouse(house)"
+      >
+        @if (house.words && layout() === 'list') {
+          <span card-badge
+            class="shrink-0 hidden sm:inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800/40 max-w-[180px] truncate"
           >
-            <img
-              [src]="isFavorited(house.url) ? 'svgs/starred.svg' : 'svgs/star.svg'"
-              alt=""
-              class="w-3.5 h-3.5 dark:invert transition-opacity"
-              [class.opacity-25]="!isFavorited(house.url)"
-              aria-hidden="true"
-            />
-          </button>
-
-          <img src="svgs/chevron-right.svg" alt="" class="w-4 h-4 dark:invert" aria-hidden="true" />
-        </div>
-      }
-    </div>
-  } @else {
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-      @for (house of houses(); track house.url) {
-        <div
-          role="button"
-          tabindex="0"
-          (click)="openHouse(house)"
-          (keydown.enter)="openHouse(house)"
-          class="group flex flex-col rounded-xl border border-stone-200 dark:border-yellow-950/60 bg-white/50 dark:bg-black/20 p-4 hover:border-yellow-500/50 dark:hover:border-yellow-600/50 hover:bg-yellow-50/50 dark:hover:bg-yellow-900/10 transition-all duration-150 cursor-pointer"
+            {{ house.words }}
+          </span>
+        }
+        <button card-action
+          type="button"
+          (click)="toggleFavorite($event, house)"
+          [attr.aria-label]="isFavorited(house.url) ? 'Remove from favorites' : 'Add to favorites'"
+          class="flex items-center justify-center w-7 h-7 rounded-full transition-all duration-150 cursor-pointer"
+          [class]="isFavorited(house.url)
+            ? 'bg-yellow-50 dark:bg-yellow-900/30 hover:bg-yellow-100 dark:hover:bg-yellow-900/50'
+            : 'hover:bg-stone-100 dark:hover:bg-stone-800/30'"
         >
-          <div class="flex items-start justify-between gap-2 mb-2.5">
-            <p class="text-sm font-medium text-stone-900 dark:text-stone-100 leading-snug truncate">
-              {{ house.name || 'Unknown House' }}
-            </p>
-            <button
-              type="button"
-              (click)="toggleFavorite($event, house)"
-              [attr.aria-label]="isFavorited(house.url) ? 'Remove from favorites' : 'Add to favorites'"
-              class="shrink-0 flex items-center justify-center w-6 h-6 rounded-full transition-all duration-150 cursor-pointer"
-              [class]="isFavorited(house.url)
-                ? 'bg-yellow-50 dark:bg-yellow-900/30 hover:bg-yellow-100 dark:hover:bg-yellow-900/50'
-                : 'hover:bg-stone-100 dark:hover:bg-stone-800/30'"
-            >
-              <img
-                [src]="isFavorited(house.url) ? 'svgs/starred.svg' : 'svgs/star.svg'"
-                alt=""
-                class="w-3.5 h-3.5 dark:invert transition-opacity"
-                [class.opacity-25]="!isFavorited(house.url)"
-                aria-hidden="true"
-              />
-            </button>
-          </div>
-
-          @if (house.region) {
-            <p class="text-xs text-stone-400 dark:text-stone-500 truncate">
-              {{ house.region }}
-            </p>
-          }
-          @if (house.words) {
-            <p class="text-xs italic text-yellow-700/70 dark:text-yellow-500/70 mt-1 line-clamp-2">
-              "{{ house.words }}"
-            </p>
-          }
-        </div>
-      }
-    </div>
-  }
+          <img
+            [src]="isFavorited(house.url) ? 'svgs/starred.svg' : 'svgs/star.svg'"
+            alt=""
+            class="w-3.5 h-3.5 dark:invert transition-opacity"
+            [class.opacity-25]="!isFavorited(house.url)"
+            aria-hidden="true"
+          />
+        </button>
+        @if (house.words && layout() === 'grid') {
+          <p card-extra class="text-xs italic text-yellow-700/70 dark:text-yellow-500/70 mt-1 line-clamp-2">
+            "{{ house.words }}"
+          </p>
+        }
+      </app-generic-card>
+    }
+  </div>
 }
 
 <div class="mt-5">
