@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { Subject, debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
 
 import { Character, CharactersFilters } from '../../core/types/characters.model';
+import { Layout } from '../../core/types/layout';
 
 import { loadCharacters } from '../../store/characters/characters.actions';
 import {
@@ -22,7 +23,7 @@ import {
 } from '../../store/favorites/favorites.actions';
 import { selectFavoriteCharacterUrls } from '../../store/favorites/favorites.selectors';
 
-import { CharactersFiltersComponent, CharactersLayout } from './characters-filters/characters-filters.component';
+import { CharactersFiltersComponent } from './characters-filters/characters-filters.component';
 import { CharacterInfoComponent } from '../shared-components/character-info/character-info.component';
 import { PageTitleComponent } from '../shared-components/page-title/page-title.component';
 import { PagePaginationComponent } from '../shared-components/page-pagination/page-pagination.component';
@@ -53,7 +54,7 @@ export class CharactersComponent {
   initialGenderFilter = signal('');
   currentPageSize = signal(10);
   showScrollTop = signal(false);
-  layout = signal<CharactersLayout>('list');
+  layout = signal<Layout>('list');
 
   private readonly nameSearch$ = new Subject<string>();
   private readonly genderChange$ = new Subject<string>();
@@ -140,6 +141,17 @@ export class CharactersComponent {
   onFiltersChange(filters: CharactersFilters): void {
     this.nameSearch$.next(filters.name);
     this.genderChange$.next(filters.gender);
+  }
+
+  onLayoutChange(value: Layout): void {
+    this.layout.set(value);
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page: 1, size: value === 'grid' ? 20 : 10 },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
+    this.scrollToTop();
   }
 
   onPageChange(newPage: number): void {

@@ -9,6 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { HousesFilters } from '../../../core/types/houses.model';
+import { Layout } from '../../../core/types/layout';
 
 @Component({
   selector: 'app-houses-filters',
@@ -33,12 +34,14 @@ export class HousesFiltersComponent {
   @Input() set region(v: string) { this.regionValue.set(v); }
 
   @Output() filtersChange = new EventEmitter<HousesFilters>();
+  @Output() layoutChange = new EventEmitter<Layout>();
 
   private readonly elementRef = inject(ElementRef);
 
   nameValue = signal('');
   regionValue = signal('');
   isDropdownOpen = signal(false);
+  layout = signal<Layout>('list');
 
   readonly regionOptions = [
     { value: '', label: 'All regions' },
@@ -85,6 +88,11 @@ export class HousesFiltersComponent {
     this.regionValue.set('');
     this.isDropdownOpen.set(false);
     this.emit();
+  }
+
+  setLayout(value: Layout): void {
+    this.layout.set(value);
+    this.layoutChange.emit(value);
   }
 
   private emit(): void {

@@ -6,6 +6,8 @@ import { Store } from '@ngrx/store';
 import { Subject, debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
 
 import { House, HousesFilters } from '../../core/types/houses.model';
+import { Layout } from '../../core/types/layout';
+
 import { loadHouses } from '../../store/houses/houses.actions';
 import {
   selectHouses,
@@ -46,6 +48,7 @@ export class HousesComponent {
   initialRegionFilter = signal('');
   currentPageSize = signal(10);
   showScrollTop = signal(false);
+  layout = signal<Layout>('list');
 
   readonly skeletons = Array.from({ length: 10 }, (_, i) => i);
 
@@ -132,6 +135,17 @@ export class HousesComponent {
   onFiltersChange(filters: HousesFilters): void {
     this.nameSearch$.next(filters.name);
     this.regionChange$.next(filters.region);
+  }
+
+  onLayoutChange(value: Layout): void {
+    this.layout.set(value);
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page: 1, size: value === 'grid' ? 20 : 10 },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
+    this.scrollToTop();
   }
 
   onPageChange(newPage: number): void {
